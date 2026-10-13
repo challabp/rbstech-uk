@@ -1,0 +1,184 @@
+---
+import Base from '../../layouts/Base.astro';
+import UseCaseRow from '../../components/UseCaseRow.astro';
+import Cta from '../../components/Cta.astro';
+import { industries, type Industry } from '../../data/industries';
+import { byIndustry } from '../../data/usecases';
+import { stages } from '../../data/accounting';
+
+export function getStaticPaths() {
+  return industries.map((ind) => ({ params: { slug: ind.slug }, props: { ind } }));
+}
+interface Props {
+  ind: Industry;
+}
+const { ind } = Astro.props;
+const cases = byIndustry(ind.slug);
+const isAccounting = ind.slug === 'accounting-audit';
+const groups = isAccounting
+  ? stages.map((s) => ({ ...s, cases: cases.filter((u) => u.stage === s.slug) }))
+  : [
+      { slug: 'core', name: '', blurb: '', cases: cases.filter((u) => !u.isNew) },
+      { slug: 'recent', name: 'Added for 2026', blurb: 'Newer problems, and older ones that current models have made practical.', cases: cases.filter((u) => u.isNew) },
+    ].filter((g) => g.cases.length);
+
+// How the pieces fit together inside a firm, shown on the accounting page only.
+const firmLayers = [
+  {
+    name: 'One hub underneath',
+    text: 'Engagement, practice, document, request and staffing systems connected into one governed data model. It is the foundation every agent works from, and it is what lets a group of firms see itself as one business.',
+  },
+  {
+    name: 'Your methodology, executable',
+    text: 'Audit manuals, templates and review standards turned into checks an agent can run. Each firm keeps its own way of working; the agents follow it instead of replacing it.',
+  },
+  {
+    name: 'Agents on the work',
+    text: 'Fieldwork, review, tax and operations agents that share the same data and the same rules, so evidence accepted on Monday is in the workpaper and on the schedule by Tuesday.',
+  },
+  {
+    name: 'People on the judgement',
+    text: 'Every conclusion, sign-off and client decision stays with a qualified person. The agents prepare, check and chase, and they show their evidence.',
+  },
+];
+---
+
+<Base title={`${ind.name} AI agents`} description={`${ind.intro.split('. ')[0]}. ${cases.length} AI agent solutions for ${ind.name.toLowerCase()}.`}>
+  <section class="band page-hero">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="/industries/">Industries</a></nav>
+      <h1>{ind.name}</h1>
+      <p class="lede">{ind.intro}</p>
+    </div>
+  </section>
+
+  {
+    isAccounting && (
+      <section class="section-tight fit">
+        <div class="wrap">
+          <div class="head">
+            <h2>Capacity comes from connecting the work, not from one clever tool.</h2>
+            <p class="lede">A firm’s hours leak at the joins: between the client and the request list, the request list and the workpaper, the workpaper and the schedule. We build across those joins.</p>
+          </div>
+          <ol class="layers">
+            {firmLayers.map((l) => (
+              <li>
+                <h3>{l.name}</h3>
+                <p class="muted">{l.text}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section-tight">
+    <div class="wrap">
+      {
+        groups.map((g) => (
+          <div class="group">
+            {g.name && (
+              <div class="group-head">
+                <h2>{g.name}</h2>
+                <p class="muted">{g.blurb}</p>
+              </div>
+            )}
+            <div class="uc-list">
+              {g.cases.map((u) => (
+                <UseCaseRow u={u} />
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section-tight context">
+    <div class="wrap cols">
+      <div>
+        <h2>Systems we expect to meet</h2>
+        <ul class="ticks">
+          {ind.systems.map((s) => <li>{s}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2>Rules that shape the design</h2>
+        <ul class="ticks">
+          {ind.rules.map((s) => <li>{s}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2>Where agents pay back first</h2>
+        <ul class="ticks">
+          {ind.focus.map((s) => <li>{s}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <Cta
+    heading={isAccounting ? 'Show us one engagement, start to finish.' : undefined}
+    text={isAccounting ? 'We will map where the hours go, pick the first two agents worth building, and run them on last year’s file so you can compare the result with what your team produced.' : undefined}
+  />
+</Base>
+
+<style>
+  .fit {
+    background: var(--white);
+    border-bottom: 1px solid var(--line);
+  }
+  .layers {
+    display: grid;
+    gap: 2rem 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  }
+  .layers li {
+    border-top: 4px solid var(--green-700);
+    padding-top: 1rem;
+  }
+  .layers li:last-child {
+    border-top-color: var(--marigold);
+  }
+  .layers h3 {
+    font-size: var(--step-1);
+    margin-bottom: 0.6rem;
+  }
+  .group + .group {
+    margin-top: 4rem;
+  }
+  .group-head {
+    display: grid;
+    gap: 0.4rem 3rem;
+    margin-bottom: 1.25rem;
+    align-items: baseline;
+  }
+  @media (min-width: 56rem) {
+    .group-head {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    }
+  }
+  .group-head h2 {
+    font-size: var(--step-3);
+  }
+  .context {
+    background: var(--white);
+    border-top: 1px solid var(--line);
+  }
+  .cols {
+    display: grid;
+    gap: 2.5rem 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  }
+  .cols h2 {
+    font-size: var(--step-1);
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+    border-top: 1.5px solid var(--ink);
+  }
+  .cols li {
+    color: var(--muted);
+  }
+</style>

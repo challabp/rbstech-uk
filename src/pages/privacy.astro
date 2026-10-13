@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+
+<Base title="Privacy" description={`How ${site.legal} handles personal data on this website.`}>
+  <section class="band page-hero">
+    <div class="wrap">
+      <h1>Privacy</h1>
+      <p class="lede">This website is deliberately simple about data.</p>
+    </div>
+  </section>
+  <section class="section-tight">
+    <div class="wrap stack" style="--gap:2rem">
+      <div class="stack">
+        <h2>What this site collects</h2>
+        <p>This site sets no cookies and runs no analytics or advertising trackers. Fonts are served from this site, not from a third party.</p>
+        <p>The contact form does not send anything to us. It opens a pre-filled message in your own email application, and nothing reaches us unless you choose to send it.</p>
+      </div>
+      <div class="stack">
+        <h2>If you email us</h2>
+        <p>{site.legal} is the controller of the personal data you send us. We use your name, contact details and message to reply to your enquiry and, if we go on to work together, to manage that relationship. Our lawful basis is our legitimate interest in responding to enquiries.</p>
+        <p>We keep enquiry emails for as long as the conversation is active and delete them when it is no longer needed. We do not sell personal data or share it for marketing.</p>
+      </div>
+      <div class="stack">
+        <h2>Your rights</h2>
+        <p>Under UK data protection law you can ask for a copy of the personal data we hold about you, ask us to correct or delete it, or object to how we use it. Write to <a href={`mailto:${site.email}`}>{site.email}</a>. You can also complain to the Information Commissioner’s Office at ico.org.uk.</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  h2 {
+    font-size: var(--step-2);
+  }
+</style>

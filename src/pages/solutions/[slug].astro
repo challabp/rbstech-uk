@@ -1,0 +1,197 @@
+---
+import Base from '../../layouts/Base.astro';
+import Trace from '../../components/Trace.astro';
+import UseCaseRow from '../../components/UseCaseRow.astro';
+import Cta from '../../components/Cta.astro';
+import { useCases, byIndustry, fill, stepsFor, type UseCase } from '../../data/usecases';
+import { industryBySlug } from '../../data/industries';
+import { patternBySlug } from '../../data/patterns';
+import { renderDiagram } from '../../lib/diagram';
+
+export function getStaticPaths() {
+  return useCases.map((u) => ({ params: { slug: u.slug }, props: { u } }));
+}
+interface Props {
+  u: UseCase;
+}
+const { u } = Astro.props;
+const ind = industryBySlug[u.industry];
+const pat = patternBySlug[u.pattern];
+const steps = stepsFor(u, pat);
+const diagram = renderDiagram(pat, (s) => fill(s, u), `${u.name} architecture`);
+const siblings = byIndustry(u.industry).filter((x) => x.slug !== u.slug);
+const related = [...siblings.filter((x) => x.pattern === u.pattern), ...siblings.filter((x) => x.pattern !== u.pattern)].slice(0, 4);
+const integrates = u.integrates ?? ind.systems;
+const measures = u.measures ?? pat.measures;
+---
+
+<Base title={u.name} description={u.summary}>
+  <section class="band page-hero">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <a href="/solutions/">Solutions</a><span aria-hidden="true">/</span>
+        <a href={`/industries/${ind.slug}/`}>{ind.name}</a>
+      </nav>
+      <h1>{u.name}</h1>
+      <p class="lede">{u.summary}</p>
+      <div class="tags" style="margin-top:1.5rem">
+        {u.tags.map((t) => <span class="tag">{t}</span>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap split">
+      <div class="stack" style="--gap:2.75rem">
+        {
+          u.problem && (
+            <div class="stack">
+              <h2 class="h">The problem</h2>
+              <p class="big">{u.problem}</p>
+            </div>
+          )
+        }
+        {
+          u.does && (
+            <div class="stack">
+              <h2 class="h">What the agent does</h2>
+              <ul class="ticks">
+                {u.does.map((d) => <li>{d}</li>)}
+              </ul>
+            </div>
+          )
+        }
+        <div class="stack">
+          <h2 class="h">Architecture: {pat.name.toLowerCase()}</h2>
+          <p>{pat.why}</p>
+          <div class="dg-frame" set:html={diagram} />
+          <div class="legend">
+            <span><i class="k-agent"></i>Agent reasoning</span>
+            <span><i class="k-tool"></i>System or tool</span>
+            <span><i class="k-data"></i>Data and knowledge</span>
+            <span><i class="k-human"></i>Person decides</span>
+          </div>
+        </div>
+        <div class="stack">
+          <h2 class="h">Where a person stays in control</h2>
+          <p class="big">{u.gate ?? pat.control}</p>
+        </div>
+      </div>
+
+      <aside class="stack" style="--gap:2rem">
+        <Trace title="How a run goes" runs={[{ label: u.name, steps }]} note="The sequence this pattern follows. Details are set with you in discovery." />
+        <dl class="facts">
+          <div>
+            <dt>Starts from</dt>
+            <dd>{u.trigger}</dd>
+          </div>
+          <div>
+            <dt>Works in</dt>
+            <dd>{u.system}</dd>
+          </div>
+          <div>
+            <dt>Draws on</dt>
+            <dd>{u.knowledge}</dd>
+          </div>
+          <div>
+            <dt>Outcome</dt>
+            <dd>{pat.outcome}</dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section-tight detail">
+    <div class="wrap cols">
+      <div>
+        <h2 class="h">Connects to</h2>
+        <ul class="ticks">
+          {integrates.map((s) => <li>{s}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2 class="h">What we measure</h2>
+        <ul class="ticks">
+          {measures.map((s) => <li>{s}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2 class="h">Built with</h2>
+        <ul class="ticks">
+          {pat.stack.map((s) => <li>{s}</li>)}
+        </ul>
+        <p class="small" style="margin-top:1rem"><a href="/engineering/">How we choose the stack</a></p>
+      </div>
+      <div>
+        <h2 class="h">Rules that shape the design</h2>
+        <ul class="ticks">
+          {ind.rules.map((s) => <li>{s}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  {
+    related.length > 0 && (
+      <section class="section-tight">
+        <div class="wrap">
+          <h2 class="h" style="margin-bottom:1.25rem">
+            More in {ind.name}
+          </h2>
+          <div class="uc-list">
+            {related.map((r) => (
+              <UseCaseRow u={r} />
+            ))}
+          </div>
+          <p style="margin-top:1.5rem">
+            <a href={`/industries/${ind.slug}/`}>
+              All {siblings.length + 1} {ind.name} solutions
+            </a>
+          </p>
+        </div>
+      </section>
+    )
+  }
+
+  <Cta heading={`Want this running in your ${ind.slug === 'accounting-audit' ? 'firm' : 'organisation'}?`} text="We will build a working version on a sample of your own cases, scored against your experts’ answers, before you commit to production." />
+</Base>
+
+<style>
+  .page-hero h1 {
+    max-width: 22ch;
+  }
+  .h {
+    font-size: var(--step-2);
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+  }
+  .big {
+    font-size: var(--step-1);
+    line-height: 1.5;
+  }
+  .detail {
+    background: var(--white);
+    border-block: 1px solid var(--line);
+  }
+  .cols {
+    display: grid;
+    gap: 2.5rem 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  }
+  .cols .h {
+    font-size: var(--step-1);
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+    border-top: 1.5px solid var(--ink);
+  }
+  .cols li {
+    color: var(--muted);
+  }
+  @media (min-width: 62rem) {
+    aside {
+      position: sticky;
+      top: 5.5rem;
+    }
+  }
+</style>

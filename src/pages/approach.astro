@@ -1,0 +1,198 @@
+---
+import Base from '../layouts/Base.astro';
+import Cta from '../components/Cta.astro';
+import { phases } from '../data/stack';
+
+const audiences = [
+  {
+    name: 'Operators',
+    who: 'Heads of operations, finance, risk and technology with a process that will not scale by hiring.',
+    get: 'A production agent on your own systems, with the evaluation results to take to your risk committee.',
+  },
+  {
+    name: 'Investors and portfolio teams',
+    who: 'Private equity, venture and holding groups looking for margin across several companies at once.',
+    get: 'A repeatable build that can be rolled out company by company, with one data model and one set of controls underneath.',
+  },
+  {
+    name: 'Product and platform partners',
+    who: 'Software companies and service firms that need agentic features or an engineering team to deliver them.',
+    get: 'Agents built inside your product or delivered under your name, with the documentation to maintain them.',
+  },
+];
+
+const deliverables = [
+  'A written design: pattern, integrations, approval classes and data flows',
+  'An evaluation set built from your real cases and signed off by your experts',
+  'The agent, deployed in your cloud tenancy',
+  'Tracing, cost and quality dashboards',
+  'A runbook, a kill switch and a rehearsed fallback to the manual process',
+  'Source code and prompts. You own what we build for you',
+];
+
+const principles = [
+  {
+    name: 'Start with the work, not the model',
+    text: 'We watch the process being done before we design anything. Most of what makes an agent succeed is in the exceptions people handle without thinking.',
+  },
+  {
+    name: 'Measure against your experts',
+    text: 'Success is defined by a test set your own people have answered. If the agent cannot match them on the cases that matter, we say so at week three.',
+  },
+  {
+    name: 'Automate in steps',
+    text: 'New agents begin by preparing work for a person to approve. Actions move to automatic only when the evidence supports it, one class of action at a time.',
+  },
+  {
+    name: 'Build to hand over',
+    text: 'Standard frameworks, documented decisions and no proprietary runtime. Your team should be able to run and change what we deliver.',
+  },
+];
+---
+
+<Base title="Approach" description="How an engagement with RBS Technologies runs: discovery, a working demo on your data by week three, production by week ten, fixed price and fixed outcome.">
+  <section class="band page-hero">
+    <div class="wrap">
+      <h1>Fixed price. Fixed outcome. Proof before you commit.</h1>
+      <p class="lede">We scope each engagement around one process and one measurable result, show it working on your data early, and release only when it passes the tests you agreed.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="head">
+        <h2>How an engagement runs.</h2>
+        <p class="lede">Ten weeks from first conversation to production is typical for a single agent. Larger programmes run several in parallel on shared foundations.</p>
+      </div>
+      <ol class="timeline">
+        {
+          phases.map((p, i) => (
+            <li>
+              <span class="n">{i + 1}</span>
+              <div>
+                <h3>{p.name}</h3>
+                <p class="when narrow">{p.when}</p>
+              </div>
+              <p>{p.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section white">
+    <div class="wrap split">
+      <div>
+        <h2>What you have at the end.</h2>
+        <p class="lede" style="margin-top:1.25rem">Everything needed to run the agent without us, whether or not you choose to.</p>
+      </div>
+      <ul class="ticks big">
+        {deliverables.map((d) => <li>{d}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="head">
+        <h2>How we work.</h2>
+      </div>
+      <div class="grid">
+        {
+          principles.map((p) => (
+            <div>
+              <h3>{p.name}</h3>
+              <p class="muted">{p.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="band section">
+    <div class="wrap">
+      <div class="head">
+        <h2>Who we work with.</h2>
+      </div>
+      <div class="aud">
+        {
+          audiences.map((a) => (
+            <div>
+              <h3>{a.name}</h3>
+              <p>{a.who}</p>
+              <p class="muted"><strong>What you get:</strong> {a.get}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Cta heading="Start with a 45-minute conversation." text="Tell us about the process. We will tell you honestly whether we think an agent can do it, and what the first ten weeks would look like." />
+</Base>
+
+<style>
+  .white {
+    background: var(--white);
+    border-block: 1px solid var(--line);
+  }
+  .timeline {
+    border-top: 1.5px solid var(--ink);
+  }
+  .timeline li {
+    display: grid;
+    gap: 0.75rem 2.5rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+  @media (min-width: 56rem) {
+    .timeline li {
+      grid-template-columns: 5rem minmax(0, 4fr) minmax(0, 6fr);
+    }
+  }
+  .timeline .n {
+    font-size: var(--step-4);
+    font-weight: 700;
+    font-stretch: 125%;
+    line-height: 0.9;
+    color: var(--green-500);
+  }
+  .when {
+    font-weight: 600;
+    margin-top: 0.35rem;
+    color: var(--muted);
+  }
+  .timeline li > p {
+    font-size: var(--step-1);
+    line-height: 1.5;
+  }
+  .big {
+    font-size: var(--step-1);
+  }
+  .grid,
+  .aud {
+    display: grid;
+    gap: 2.5rem 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  }
+  .grid h3,
+  .aud h3 {
+    margin-bottom: 0.6rem;
+  }
+  .grid h3 {
+    font-size: var(--step-1);
+  }
+  .aud > div {
+    border-top: 4px solid var(--marigold);
+    padding-top: 1.25rem;
+  }
+  .aud p + p {
+    margin-top: 0.9rem;
+  }
+  .aud strong {
+    color: #fff;
+  }
+</style>

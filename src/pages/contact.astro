@@ -1,0 +1,135 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+import { industries } from '../data/industries';
+
+const next = [
+  { name: 'We reply by email', text: 'From a person who can talk about the engineering.' },
+  { name: 'A 45-minute call', text: 'You describe the process and what good looks like. We ask about volumes, systems and exceptions.' },
+  { name: 'A short written view', text: 'Which pattern fits, what we would need from you, and an indicative price and timeline.' },
+];
+---
+
+<Base title="Contact" description="Start a conversation with RBS Technologies about building AI agents for your organisation.">
+  <section class="band page-hero">
+    <div class="wrap">
+      <h1>Tell us about the process.</h1>
+      <p class="lede">A few lines is enough: what the work is, roughly how much of it there is, and what is getting in the way.</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap split">
+      <form class="form" data-contact data-to={site.email}>
+        <div class="row">
+          <div class="field">
+            <label for="name">Your name</label>
+            <input id="name" name="name" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="org">Organisation</label>
+            <input id="org" name="org" autocomplete="organization" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="industry">Industry</label>
+            <select id="industry" name="industry">
+              <option value="">Choose one</option>
+              {industries.map((i) => <option>{i.name}</option>)}
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="role">I am contacting you as</label>
+            <select id="role" name="role">
+              <option>A potential customer</option>
+              <option>An investor or portfolio team</option>
+              <option>A partner</option>
+              <option>Something else</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="msg">What would you like an agent to do?</label>
+          <textarea id="msg" name="msg" required></textarea>
+        </div>
+        <div>
+          <button class="btn btn-solid" type="submit">Open email to send</button>
+          <p class="small muted" style="margin-top:0.9rem">
+            This opens a pre-filled message in your email app. Nothing is sent or stored by this page. You can also write to us directly at <a href={`mailto:${site.email}`}>{site.email}</a>.
+          </p>
+        </div>
+      </form>
+
+      <aside>
+        <h2>What happens next</h2>
+        <ol class="next">
+          {
+            next.map((n, i) => (
+              <li>
+                <span class="n">{i + 1}</span>
+                <div>
+                  <h3>{n.name}</h3>
+                  <p class="muted">{n.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-contact]')!;
+  // Carry a solution or industry over from the page the visitor came from.
+  const ref = new URLSearchParams(location.search).get('about');
+  if (ref) (form.elements.namedItem('msg') as HTMLTextAreaElement).value = `I would like to talk about: ${ref}\n\n`;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const v = (n: string) => (form.elements.namedItem(n) as HTMLInputElement).value.trim();
+    const subject = `Enquiry from ${v('name')}${v('org') ? `, ${v('org')}` : ''}`;
+    const details = [`Name: ${v('name')}`, v('org') && `Organisation: ${v('org')}`, v('industry') && `Industry: ${v('industry')}`, `Contacting as: ${v('role')}`].filter(Boolean);
+    const body = [v('msg'), '', ...details].join('\n');
+    location.href = `mailto:${form.dataset.to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+</script>
+
+<style>
+  .form {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .row {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  }
+  aside h2 {
+    font-size: var(--step-2);
+    margin-bottom: 1.25rem;
+  }
+  .next {
+    border-top: 1.5px solid var(--ink);
+  }
+  .next li {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 1rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .next .n {
+    font-size: var(--step-3);
+    font-weight: 700;
+    font-stretch: 125%;
+    line-height: 1;
+    color: var(--green-500);
+  }
+  .next h3 {
+    font-size: var(--step-1);
+    margin-bottom: 0.3rem;
+  }
+</style>

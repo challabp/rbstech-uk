@@ -1,0 +1,126 @@
+---
+import Base from '../../layouts/Base.astro';
+import UseCaseRow from '../../components/UseCaseRow.astro';
+import Cta from '../../components/Cta.astro';
+import { industries } from '../../data/industries';
+import { patterns } from '../../data/patterns';
+import { useCases, counts } from '../../data/usecases';
+---
+
+<Base title="Solutions" description={`${counts.useCases} AI agent solution designs across ${counts.industries} industries. Filter by industry or architecture pattern and open any one to see how it works.`}>
+  <section class="band page-hero">
+    <div class="wrap">
+      <h1>{counts.useCases} solutions you can open and inspect.</h1>
+      <p class="lede">Each one names the trigger, the systems it works in, the architecture, and where a person stays in control. Use them as a starting point for your own.</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap">
+      <form class="filters" data-filters onsubmit="return false">
+        <div class="field">
+          <label for="q">Search</label>
+          <input id="q" name="q" type="search" placeholder="Try invoice, voice, audit or compliance" autocomplete="off" />
+        </div>
+        <div class="field">
+          <label for="industry">Industry</label>
+          <select id="industry" name="industry">
+            <option value="">All industries</option>
+            {industries.map((i) => <option value={i.slug}>{i.name}</option>)}
+          </select>
+        </div>
+        <div class="field">
+          <label for="pattern">Architecture pattern</label>
+          <select id="pattern" name="pattern">
+            <option value="">All patterns</option>
+            {patterns.map((p) => <option value={p.slug}>{p.name}</option>)}
+          </select>
+        </div>
+      </form>
+      <p class="count" aria-live="polite"><span data-count>{useCases.length}</span> of {useCases.length} solutions <button type="button" data-clear hidden>Clear filters</button></p>
+
+      <div class="uc-list" data-list>
+        {useCases.map((u) => <UseCaseRow u={u} showIndustry />)}
+      </div>
+      <p class="empty" data-empty hidden>No solutions match those filters. Clear them, or <a href="/contact/">tell us what you are looking for</a>.</p>
+    </div>
+  </section>
+
+  <Cta heading="Not on the list?" text="These are starting points. Most of what we build begins with a process nobody has written down yet." />
+</Base>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-filters]')!;
+  const rows = [...document.querySelectorAll<HTMLElement>('[data-list] .uc')];
+  const count = document.querySelector('[data-count]')!;
+  const empty = document.querySelector<HTMLElement>('[data-empty]')!;
+  const clear = document.querySelector<HTMLButtonElement>('[data-clear]')!;
+  const q = form.elements.namedItem('q') as HTMLInputElement;
+  const industry = form.elements.namedItem('industry') as HTMLSelectElement;
+  const pattern = form.elements.namedItem('pattern') as HTMLSelectElement;
+
+  const params = new URLSearchParams(location.search);
+  q.value = params.get('q') ?? '';
+  industry.value = params.get('industry') ?? '';
+  pattern.value = params.get('pattern') ?? '';
+
+  function apply() {
+    const terms = q.value.toLowerCase().split(/\s+/).filter(Boolean);
+    let n = 0;
+    for (const r of rows) {
+      const show =
+        (!industry.value || r.dataset.industry === industry.value) &&
+        (!pattern.value || r.dataset.pattern === pattern.value) &&
+        terms.every((t) => r.dataset.hay!.includes(t));
+      r.hidden = !show;
+      if (show) n++;
+    }
+    count.textContent = String(n);
+    empty.hidden = n > 0;
+    const filtered = Boolean(q.value || industry.value || pattern.value);
+    clear.hidden = !filtered;
+    const next = new URLSearchParams();
+    if (q.value) next.set('q', q.value);
+    if (industry.value) next.set('industry', industry.value);
+    if (pattern.value) next.set('pattern', pattern.value);
+    history.replaceState(null, '', next.size ? `?${next}` : location.pathname);
+  }
+  form.addEventListener('input', apply);
+  clear.addEventListener('click', () => {
+    form.reset();
+    apply();
+  });
+  apply();
+</script>
+
+<style>
+  .filters {
+    display: grid;
+    gap: 1rem 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  }
+  @media (min-width: 60rem) {
+    .filters {
+      grid-template-columns: 2fr 1fr 1fr;
+    }
+  }
+  .count {
+    margin-block: 1.75rem 1rem;
+    color: var(--muted);
+    max-width: none;
+  }
+  .count button {
+    margin-left: 1rem;
+    background: none;
+    border: 0;
+    padding: 0;
+    font: inherit;
+    color: var(--green-700);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  .empty {
+    padding: 2.5rem 0;
+    font-size: var(--step-1);
+  }
+</style>

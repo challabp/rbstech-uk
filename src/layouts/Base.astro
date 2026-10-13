@@ -1,0 +1,142 @@
+---
+import '../styles/global.css';
+import { site, nav } from '../data/site';
+import { industries } from '../data/industries';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = site.description } = Astro.props;
+const path = Astro.url.pathname;
+const canonical = new URL(path, site.url).href;
+const fullTitle = path === '/' ? `${site.name} | ${site.tagline}` : `${title} | ${site.name}`;
+const isCurrent = (href: string) => path.startsWith(href);
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#0c3327" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="brand" href="/" aria-label={`${site.name} home`}>
+          <svg viewBox="0 0 28 28" aria-hidden="true">
+            <circle cx="4.5" cy="14" r="3.5" fill="#fff"></circle>
+            <path d="M8 14h4M20 14h-4" stroke="#fff" stroke-width="2"></path>
+            <rect x="10" y="10" width="8" height="8" transform="rotate(45 14 14)" fill="#f2b41b"></rect>
+            <circle cx="23.5" cy="14" r="2.75" fill="none" stroke="#fff" stroke-width="1.75"></circle>
+          </svg>
+          <span>RBS <span>Technologies</span></span>
+        </a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+        <nav class="nav" id="site-nav" aria-label="Main">
+          {nav.map((n) => <a href={n.href} aria-current={isCurrent(n.href) ? 'page' : undefined}>{n.label}</a>)}
+          <a class="btn btn-primary" href="/contact/">Start a conversation</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="footer-grid">
+          <div>
+            <h2>{site.name}</h2>
+            <p>AI agents designed, built and run for production, on the stack that suits the job.</p>
+            <p style="margin-top:1rem"><a href={`mailto:${site.email}`}>{site.email}</a></p>
+          </div>
+          <div>
+            <h2>Explore</h2>
+            <ul>
+              {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+              <li><a href="/contact/">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>Industries</h2>
+            <ul>
+              {industries.slice(0, 8).map((i) => <li><a href={`/industries/${i.slug}/`}>{i.name}</a></li>)}
+            </ul>
+          </div>
+          <div>
+            <h2 aria-hidden="true">&nbsp;</h2>
+            <ul>
+              {industries.slice(8).map((i) => <li><a href={`/industries/${i.slug}/`}>{i.name}</a></li>)}
+            </ul>
+          </div>
+        </div>
+        <div class="footer-legal">
+          <span>
+            © {new Date().getFullYear()} {site.legal}. Registered in England and Wales{site.companyNo ? `, company number ${site.companyNo}` : ''}.
+          </span>
+          <span><a href="/privacy/">Privacy</a></span>
+        </div>
+      </div>
+    </footer>
+
+    <script is:inline>
+      (() => {
+        const t = document.querySelector('.nav-toggle');
+        const n = document.getElementById('site-nav');
+        t?.addEventListener('click', () => {
+          const open = n.toggleAttribute('data-open');
+          t.setAttribute('aria-expanded', String(open));
+        });
+
+        // Run traces: replay button, scenario tabs, one autoplay for the hero.
+        const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        document.querySelectorAll('.trace').forEach((trace) => {
+          let timer;
+          const panels = [...trace.querySelectorAll('.trace-steps')];
+          const tabs = [...trace.querySelectorAll('.trace-tabs button')];
+          const active = () => panels.find((p) => !p.hidden);
+          const play = () => {
+            clearInterval(timer);
+            const steps = [...active().querySelectorAll('.trace-step')];
+            if (reduce) return;
+            steps.forEach((s) => s.removeAttribute('data-done'));
+            trace.setAttribute('data-playing', '');
+            let i = 0;
+            const tick = () => {
+              if (i < steps.length) steps[i++].setAttribute('data-done', '');
+              else {
+                clearInterval(timer);
+                trace.removeAttribute('data-playing');
+              }
+            };
+            tick();
+            timer = setInterval(tick, 700);
+          };
+          trace.querySelector('.trace-replay')?.addEventListener('click', play);
+          tabs.forEach((tab, i) =>
+            tab.addEventListener('click', () => {
+              tabs.forEach((b, j) => b.setAttribute('aria-selected', String(i === j)));
+              panels.forEach((p, j) => (p.hidden = i !== j));
+              play();
+            }),
+          );
+          if (trace.hasAttribute('data-autoplay')) play();
+        });
+      })();
+    </script>
+  </body>
+</html>

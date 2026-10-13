@@ -1,0 +1,2019 @@
+[
+{
+"ind": "Healthcare",
+"name": "Clinical Intake & Triage Agent",
+"desc": "A 24/7 virtual front-desk agent that intakes symptoms, scores urgency, and routes patients to the right care setting.",
+"tags": [
+"EHR",
+"Voice",
+"Compliance"
+],
+"topo": "Decision + approval gate",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Healthcare",
+"name": "Prior Authorization Agent",
+"desc": "Drafts, submits, and follows up on prior-auth requests across payer portals — without a human in the form.",
+"tags": [
+"RCM",
+"Browser-use",
+"Payer"
+],
+"topo": "Transactional integration",
+"entry": "Teams chatbot"
+},
+{
+"ind": "Healthcare",
+"name": "Ambient Clinical Scribe",
+"desc": "Listens to the encounter, produces a structured note, codes the visit, and queues orders for physician sign-off.",
+"tags": [
+"Voice",
+"Multi-modal",
+"EHR"
+],
+"topo": "Conversational assist loop",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Healthcare",
+"name": "Claim Denial Management Agent",
+"desc": "Reads denial reasons, generates appeal letters with citations, and resubmits — closing the recovery loop.",
+"tags": [
+"RCM",
+"Compliance",
+"Document AI"
+],
+"topo": "Decision + approval gate",
+"entry": "Form / document upload"
+},
+{
+"ind": "Healthcare",
+"name": "Post-Discharge Follow-up Agent",
+"desc": "Calls or texts discharged patients on a schedule, screens for warning signs, and books follow-up visits.",
+"tags": [
+"Voice",
+"SMS",
+"Care Mgmt"
+],
+"topo": "Transactional integration",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Healthcare",
+"name": "Radiology Preliminary Read Agent",
+"desc": "Reviews imaging studies, flags critical findings, and drafts a preliminary read for radiologist confirmation.",
+"tags": [
+"Imaging",
+"Multi-modal",
+"Triage"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "Healthcare",
+"name": "Clinical Trial Matching Agent",
+"desc": "Scans patient charts against open trial criteria and surfaces matches to the care team.",
+"tags": [
+"Oncology",
+"Document AI",
+"Matching"
+],
+"topo": "Orchestrator + parallel sub-agents",
+"entry": "Form / document upload"
+},
+{
+"ind": "Healthcare",
+"name": "Medication Reconciliation Agent",
+"desc": "Compares home, hospital, and discharge meds — flagging duplications, interactions, and missing prescriptions.",
+"tags": [
+"Patient Safety",
+"Pharmacy"
+],
+"topo": "Transactional integration",
+"entry": "Teams chat"
+},
+{
+"ind": "Healthcare",
+"name": "Payer Policy Search Agent",
+"desc": "Answers staff questions about coverage with up-to-the-day policy citations.",
+"tags": [
+"RAG",
+"Compliance",
+"Citations"
+],
+"topo": "Transactional integration",
+"entry": "Teams chat"
+},
+{
+"ind": "Healthcare",
+"name": "Specialty Referral Coordinator",
+"desc": "Finds the right specialist, books the appointment, and transmits records — all from the PCP's order.",
+"tags": [
+"Care Coordination",
+"Multi-step"
+],
+"topo": "Orchestrator + parallel sub-agents",
+"entry": "Teams chat"
+},
+{
+"ind": "Healthcare",
+"name": "Patient Billing Concierge",
+"desc": "Explains medical bills in plain language, negotiates payment plans, and processes payments.",
+"tags": [
+"RCM",
+"Voice",
+"Payments"
+],
+"topo": "Transactional integration",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Healthcare",
+"name": "Clinical Research Assistant",
+"desc": "Searches literature, summarizes evidence, and drafts answers to clinical questions with citations.",
+"tags": [
+"RAG",
+"Citations",
+"Research"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Teams chatbot"
+},
+{
+"ind": "Finance & Banking",
+"name": "Fraud Investigation Agent",
+"desc": "Investigates flagged transactions end-to-end and produces a decision-ready case file in seconds.",
+"tags": [
+"Risk",
+"Multi-system",
+"Reasoning"
+],
+"topo": "Transactional integration",
+"entry": "System / API trigger"
+},
+{
+"ind": "Finance & Banking",
+"name": "KYC Onboarding Agent",
+"desc": "Runs the full KYC/KYB workflow — document review, sanctions screening, beneficial-ownership mapping, and risk scoring.",
+"tags": [
+"Compliance",
+"Document AI",
+"Sanctions"
+],
+"topo": "Decision + approval gate",
+"entry": "Form / document upload"
+},
+{
+"ind": "Finance & Banking",
+"name": "Dispute Resolution Agent",
+"desc": "Takes a customer chargeback claim, gathers evidence, and decides — without a human handoff.",
+"tags": [
+"Chat",
+"Multi-step",
+"Decisioning"
+],
+"topo": "Decision + approval gate",
+"entry": "Teams chatbot"
+},
+{
+"ind": "Finance & Banking",
+"name": "Compliance Monitoring Agent",
+"desc": "Reviews advisor communications, trade activity, and policy adherence — surfacing violations before they escalate.",
+"tags": [
+"Surveillance",
+"Multi-modal",
+"Risk"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "System event / signal"
+},
+{
+"ind": "Finance & Banking",
+"name": "Commercial Credit Memo Agent",
+"desc": "Drafts the full credit memo from financials, market data, and prior memos — ready for the credit committee.",
+"tags": [
+"Underwriting",
+"Document AI",
+"Analysis"
+],
+"topo": "Decision + approval gate",
+"entry": "Form / document upload"
+},
+{
+"ind": "Finance & Banking",
+"name": "Wealth Portfolio Review Agent",
+"desc": "Prepares personalized portfolio reviews for every client — quarterly — at advisor scale.",
+"tags": [
+"Wealth",
+"Personalization"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "Finance & Banking",
+"name": "AML Alert Triage Agent",
+"desc": "Investigates AML transaction alerts, gathers the full case, and recommends SAR/no-SAR.",
+"tags": [
+"AML",
+"Compliance",
+"Document AI"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "Form / document upload"
+},
+{
+"ind": "Finance & Banking",
+"name": "Earnings Call Analyst Agent",
+"desc": "Listens to earnings calls live, extracts deltas, and pushes a structured note to the desk in minutes.",
+"tags": [
+"Voice",
+"Real-time",
+"Equities"
+],
+"topo": "Conversational assist loop",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Finance & Banking",
+"name": "Treasury Cash Position Agent",
+"desc": "Pulls live balances across banks, forecasts the day's flows, and recommends sweeps and placements.",
+"tags": [
+"Treasury",
+"Multi-system"
+],
+"topo": "Transactional integration",
+"entry": "System / API trigger"
+},
+{
+"ind": "Finance & Banking",
+"name": "Regulatory Change Management Agent",
+"desc": "Monitors every regulator the firm answers to, maps changes to internal policies, and drafts the remediation plan.",
+"tags": [
+"Compliance",
+"Monitoring"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "System event / signal"
+},
+{
+"ind": "Finance & Banking",
+"name": "Personal Finance Coach Agent",
+"desc": "An in-app agent that understands the customer's full financial picture and proactively coaches them.",
+"tags": [
+"Chat",
+"Personalization",
+"Embedded"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "Teams chatbot"
+},
+{
+"ind": "Finance & Banking",
+"name": "Vendor Invoice Processing Agent",
+"desc": "Reads invoices, matches to POs and receipts, codes the GL line, and queues approval — across the AP inbox.",
+"tags": [
+"AP",
+"Document AI",
+"Workflow"
+],
+"topo": "Transactional integration",
+"entry": "Email (shared mailboxes)"
+},
+{
+"ind": "Retail & E-commerce",
+"name": "Product Description Authoring Agent",
+"desc": "Generates merchandised, brand-consistent product copy from supplier data and images at catalog scale.",
+"tags": [
+"Content",
+"Multi-modal",
+"SEO"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "Retail & E-commerce",
+"name": "Personal Shopping Concierge",
+"desc": "A chat-first concierge that knows the customer, the inventory, and the use case — and closes the basket.",
+"tags": [
+"Chat",
+"Personalization",
+"Conversion"
+],
+"topo": "Conversational assist loop",
+"entry": "Teams chatbot"
+},
+{
+"ind": "Retail & E-commerce",
+"name": "Returns & Exchange Agent",
+"desc": "Handles returns end-to-end — diagnoses fit/quality issues, recommends exchanges, and saves the sale where possible.",
+"tags": [
+"Service",
+"Conversion",
+"Logistics"
+],
+"topo": "Linear pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "Retail & E-commerce",
+"name": "Inventory Rebalance Agent",
+"desc": "Monitors demand signals, predicts stockouts, and rebalances inventory across stores and DCs autonomously.",
+"tags": [
+"Planning",
+"Forecasting"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "System event / signal"
+},
+{
+"ind": "Retail & E-commerce",
+"name": "Promotion Optimization Agent",
+"desc": "Designs, tests, and optimizes promotions per category — accounting for halo, cannibalization, and inventory.",
+"tags": [
+"Pricing",
+"Optimization"
+],
+"topo": "Data-grounded analytics",
+"entry": "Teams chat"
+},
+{
+"ind": "Retail & E-commerce",
+"name": "Review Insight Agent",
+"desc": "Synthesizes thousands of product reviews into structured signals for merchandising, QA, and PDP optimization.",
+"tags": [
+"NLP",
+"Analytics",
+"PDP"
+],
+"topo": "Data-grounded analytics",
+"entry": "System event / signal"
+},
+{
+"ind": "Retail & E-commerce",
+"name": "Supplier Quote & Negotiation Agent",
+"desc": "Runs sourcing RFQs and price negotiations for long-tail SKUs buyers don't have time to chase.",
+"tags": [
+"Sourcing",
+"Negotiation"
+],
+"topo": "Orchestrator + parallel sub-agents",
+"entry": "Teams chat"
+},
+{
+"ind": "Retail & E-commerce",
+"name": "Size & Fit Recommendation Agent",
+"desc": "Conversationally diagnoses fit using prior purchases, returns, and brand-specific sizing intelligence.",
+"tags": [
+"Apparel",
+"Personalization"
+],
+"topo": "Conversational assist loop",
+"entry": "Teams chatbot"
+},
+{
+"ind": "Retail & E-commerce",
+"name": "Store Associate Copilot",
+"desc": "An in-store copilot for inventory, product knowledge, returns, and loyalty — instantly, by voice.",
+"tags": [
+"Voice",
+"Mobile",
+"Inventory"
+],
+"topo": "Conversational assist loop",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Retail & E-commerce",
+"name": "Loyalty Lifecycle Agent",
+"desc": "Watches the loyalty base, segments dynamically, and triggers offers at the right moment.",
+"tags": [
+"CRM",
+"Personalization"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Retail & E-commerce",
+"name": "Visual Merchandising Agent",
+"desc": "Generates store-set guidance per location using local sales, theme, and planogram constraints.",
+"tags": [
+"Stores",
+"Multi-modal",
+"Operations"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "Retail & E-commerce",
+"name": "E-commerce Fraud Decisioning",
+"desc": "Reviews flagged orders, gathers cross-signal context, and decides ship/hold without slowing legit customers.",
+"tags": [
+"Risk",
+"Real-time"
+],
+"topo": "Decision + approval gate",
+"entry": "System event / signal"
+},
+{
+"ind": "Legal",
+"name": "Contract Redline Agent",
+"desc": "Reviews incoming contracts against the playbook, suggests redlines, and drafts the counter-markup.",
+"tags": [
+"Contracts",
+"Document AI",
+"Playbook"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Form / document upload"
+},
+{
+"ind": "Legal",
+"name": "eDiscovery Review Agent",
+"desc": "Reviews discovery documents for relevance and privilege at a fraction of contract-attorney cost.",
+"tags": [
+"Litigation",
+"Document AI"
+],
+"topo": "Data-grounded analytics",
+"entry": "Form / document upload"
+},
+{
+"ind": "Legal",
+"name": "Legal Research Agent",
+"desc": "Researches issues with full citation graphs and writes a draft memo with treatments and Shepardized authority.",
+"tags": [
+"Research",
+"RAG",
+"Citations"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "Legal",
+"name": "Lease Abstraction Agent",
+"desc": "Extracts structured terms from commercial leases — rent, escalations, options, recoveries — at portfolio scale.",
+"tags": [
+"Real Estate",
+"Document AI"
+],
+"topo": "Retrieval-grounded analysis",
+"entry": "Form / document upload"
+},
+{
+"ind": "Legal",
+"name": "Regulatory Filings Agent",
+"desc": "Drafts the first version of regulatory filings (10-K sections, prospectus updates, S-1 disclosures) from source data.",
+"tags": [
+"Public Co.",
+"Document AI"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Form / document upload"
+},
+{
+"ind": "Legal",
+"name": "Matter Status & Briefing Agent",
+"desc": "Maintains a live status brief for every matter — synthesizing emails, docs, calendar, and time entries.",
+"tags": [
+"Operations",
+"Matter Mgmt"
+],
+"topo": "Linear pipeline",
+"entry": "Email (shared mailboxes)"
+},
+{
+"ind": "Legal",
+"name": "New Matter Intake Agent",
+"desc": "Conducts client intake conversations, runs conflicts checks, and tees up matter opening for partner review.",
+"tags": [
+"Voice",
+"Conflicts",
+"Intake"
+],
+"topo": "Conversational assist loop",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Legal",
+"name": "Compliance Policy Q&A Agent",
+"desc": "Answers employee questions about company policy with citations to the source document and section.",
+"tags": [
+"RAG",
+"Policy",
+"Internal"
+],
+"topo": "Decision + approval gate",
+"entry": "Form / document upload"
+},
+{
+"ind": "Legal",
+"name": "Deposition Prep Agent",
+"desc": "Drafts outlines, pulls exhibits, and predicts opposing themes from the case record.",
+"tags": [
+"Litigation",
+"Document AI"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Form / document upload"
+},
+{
+"ind": "Legal",
+"name": "Patent Prosecution Assistant",
+"desc": "Drafts office action responses, claim amendments, and prior-art arguments.",
+"tags": [
+"Patent",
+"Document AI"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Teams chatbot"
+},
+{
+"ind": "Legal",
+"name": "M&A Diligence Agent",
+"desc": "Reads the data room and produces the diligence memo with risk flags, ranked by deal impact.",
+"tags": [
+"M&A",
+"Document AI"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Form / document upload"
+},
+{
+"ind": "Legal",
+"name": "Billing Narrative Agent",
+"desc": "Drafts billing narratives that survive client guidelines and reduce write-offs.",
+"tags": [
+"Billing",
+"Operations"
+],
+"topo": "Transactional integration",
+"entry": "Teams chat"
+},
+{
+"ind": "HR & Recruiting",
+"name": "Candidate Sourcing Agent",
+"desc": "Sources, scores, and personally outreaches to qualified candidates across the open web at recruiter scale.",
+"tags": [
+"Sourcing",
+"Outreach",
+"Browser-use"
+],
+"topo": "Orchestrator + parallel sub-agents",
+"entry": "Teams chat"
+},
+{
+"ind": "HR & Recruiting",
+"name": "Voice Phone Screen Agent",
+"desc": "Conducts the initial phone screen — qualifications, comp, logistics, culture-add — and passes the brief on.",
+"tags": [
+"Voice",
+"Screening"
+],
+"topo": "Conversational assist loop",
+"entry": "Voice / telephony"
+},
+{
+"ind": "HR & Recruiting",
+"name": "Employee HR Helpdesk Agent",
+"desc": "Answers any HR question — benefits, PTO, policy, payroll — with cited sources, in any language.",
+"tags": [
+"RAG",
+"Multilingual",
+"HRIS"
+],
+"topo": "Transactional integration",
+"entry": "Teams chatbot"
+},
+{
+"ind": "HR & Recruiting",
+"name": "Interview Scheduling Agent",
+"desc": "Coordinates multi-stakeholder interviews across time zones, calendars, and panel preferences.",
+"tags": [
+"Scheduling",
+"Multi-system"
+],
+"topo": "Orchestrator + parallel sub-agents",
+"entry": "System / API trigger"
+},
+{
+"ind": "HR & Recruiting",
+"name": "New-Hire Onboarding Agent",
+"desc": "Onboards new hires across IT, HR, payroll, and team — answering questions and tracking completion.",
+"tags": [
+"Workflow",
+"Onboarding"
+],
+"topo": "Transactional integration",
+"entry": "Teams chat"
+},
+{
+"ind": "HR & Recruiting",
+"name": "Performance Review Drafter",
+"desc": "Drafts performance review narratives from artifacts (PRs, tickets, doc edits, peer notes) for manager review.",
+"tags": [
+"Performance",
+"Document AI"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Form / document upload"
+},
+{
+"ind": "HR & Recruiting",
+"name": "Compensation Benchmarking Agent",
+"desc": "Pulls live market data, applies the firm's comp philosophy, and recommends offers and merit cycles.",
+"tags": [
+"Comp",
+"Analytics"
+],
+"topo": "Data-grounded analytics",
+"entry": "Teams chat"
+},
+{
+"ind": "HR & Recruiting",
+"name": "Employee Listening Agent",
+"desc": "Continuously synthesizes signals — Slack, surveys, exit interviews — into actionable people insights.",
+"tags": [
+"Analytics",
+"Culture"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "System event / signal"
+},
+{
+"ind": "HR & Recruiting",
+"name": "Personalized L&D Pathways",
+"desc": "Designs and shepherds individual learning paths based on role, career goals, and skill gaps.",
+"tags": [
+"L&D",
+"Personalization"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "HR & Recruiting",
+"name": "Leave Management Agent",
+"desc": "Handles leave requests end-to-end — eligibility, approval workflow, manager coordination, return-to-work.",
+"tags": [
+"Compliance",
+"Workflow"
+],
+"topo": "Decision + approval gate",
+"entry": "Teams chat"
+},
+{
+"ind": "HR & Recruiting",
+"name": "Internal Mobility Agent",
+"desc": "Matches employees to internal opportunities they wouldn't have found and drives the conversations.",
+"tags": [
+"Mobility",
+"Matching"
+],
+"topo": "Orchestrator + parallel sub-agents",
+"entry": "Teams chatbot"
+},
+{
+"ind": "HR & Recruiting",
+"name": "Workforce Planning Agent",
+"desc": "Builds and maintains living workforce plans with scenario modeling for hiring, attrition, and skill mix.",
+"tags": [
+"Analytics",
+"Planning"
+],
+"topo": "Data-grounded analytics",
+"entry": "Teams chat"
+},
+{
+"ind": "Customer Support",
+"name": "Support Email Triage Agent",
+"desc": "Reads incoming support email, identifies intent, gathers context, and resolves or routes — before a human opens the queue.",
+"tags": [
+"Email",
+"Triage",
+"Resolution"
+],
+"topo": "Linear pipeline",
+"entry": "Email (shared mailboxes)"
+},
+{
+"ind": "Customer Support",
+"name": "Voice Deflection & IVR Replacement",
+"desc": "Replaces the IVR with a real conversation that solves the call without transferring 80% of the time.",
+"tags": [
+"Voice",
+"IVR",
+"Deflection"
+],
+"topo": "Conversational assist loop",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Customer Support",
+"name": "Agent Copilot",
+"desc": "Real-time copilot in the agent console — surfacing answers, drafting responses, and executing system actions.",
+"tags": [
+"Real-time",
+"Copilot"
+],
+"topo": "Conversational assist loop",
+"entry": "Teams chatbot"
+},
+{
+"ind": "Customer Support",
+"name": "Social Support Agent",
+"desc": "Monitors social channels, prioritizes real complaints from noise, and responds publicly and privately.",
+"tags": [
+"Social",
+"Brand"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "System event / signal"
+},
+{
+"ind": "Customer Support",
+"name": "Proactive Issue Outreach Agent",
+"desc": "Detects emerging product issues from support signals and proactively reaches affected customers with a fix.",
+"tags": [
+"Proactive",
+"Analytics"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "System event / signal"
+},
+{
+"ind": "Customer Support",
+"name": "Billing Dispute Resolution Agent",
+"desc": "Investigates billing disputes, reviews account history, and resolves within authorized policy.",
+"tags": [
+"Billing",
+"Decisioning"
+],
+"topo": "Transactional integration",
+"entry": "Teams chat"
+},
+{
+"ind": "Customer Support",
+"name": "QA & Coaching Agent",
+"desc": "Reviews 100% of support interactions, scores them, and delivers personalized coaching to each rep.",
+"tags": [
+"QA",
+"Coaching",
+"Analytics"
+],
+"topo": "Data-grounded analytics",
+"entry": "Teams chat"
+},
+{
+"ind": "Customer Support",
+"name": "Knowledge Curation Agent",
+"desc": "Watches what reps search for, what's missing, and what's outdated — drafting new and updated KB content continuously.",
+"tags": [
+"Knowledge",
+"RAG"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "Teams chat"
+},
+{
+"ind": "Customer Support",
+"name": "CSAT Recovery Agent",
+"desc": "Detects bad-CSAT interactions, reaches back out with a make-good, and closes the loop.",
+"tags": [
+"Retention",
+"Outreach"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "Teams chat"
+},
+{
+"ind": "Customer Support",
+"name": "Warranty & Claims Agent",
+"desc": "Diagnoses the issue, checks warranty eligibility, and ships the replacement — without a human in the loop.",
+"tags": [
+"Diagnosis",
+"RMA"
+],
+"topo": "Linear pipeline",
+"entry": "Form / document upload"
+},
+{
+"ind": "Customer Support",
+"name": "Multilingual Support Agent",
+"desc": "Provides native-quality support in 50+ languages without staffing each one.",
+"tags": [
+"Multilingual",
+"Voice"
+],
+"topo": "Conversational assist loop",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Customer Support",
+"name": "B2B Customer Health Agent",
+"desc": "Maintains a live health score per account by reading product usage, support history, and CSM notes.",
+"tags": [
+"B2B",
+"Analytics",
+"Retention"
+],
+"topo": "Data-grounded analytics",
+"entry": "Teams chat"
+},
+{
+"ind": "Software Development",
+"name": "Code Review Agent",
+"desc": "Reviews PRs with codebase-aware context, surfaces real issues, and suggests fixes — without false-positive fatigue.",
+"tags": [
+"DevEx",
+"Codebase",
+"Reasoning"
+],
+"topo": "Retrieval-grounded analysis",
+"entry": "Teams chat"
+},
+{
+"ind": "Software Development",
+"name": "On-Call Incident Triage Agent",
+"desc": "Wakes up first — investigates alerts, correlates signals across systems, and pages humans only when needed.",
+"tags": [
+"SRE",
+"Observability"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Software Development",
+"name": "Test Generation & Coverage Agent",
+"desc": "Reads code changes, generates the right unit and integration tests, and maintains the test suite.",
+"tags": [
+"Testing",
+"Quality"
+],
+"topo": "Generative authoring pipeline",
+"entry": "System / API trigger"
+},
+{
+"ind": "Software Development",
+"name": "Codebase Migration Agent",
+"desc": "Performs large-scale codebase migrations (framework upgrades, library swaps, language ports) PR-by-PR.",
+"tags": [
+"Refactoring",
+"Codebase"
+],
+"topo": "Linear pipeline",
+"entry": "Form / document upload"
+},
+{
+"ind": "Software Development",
+"name": "Doc Writing & Maintenance Agent",
+"desc": "Writes and maintains internal and external docs by reading code, commits, and design docs.",
+"tags": [
+"Documentation",
+"DevEx"
+],
+"topo": "Linear pipeline",
+"entry": "Form / document upload"
+},
+{
+"ind": "Software Development",
+"name": "Security Vulnerability Triage Agent",
+"desc": "Triages SAST, DAST, and SCA findings — separating real risks from noise and drafting fixes.",
+"tags": [
+"AppSec",
+"Triage"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "Software Development",
+"name": "Bug Reproducer Agent",
+"desc": "Reads a bug report, attempts to reproduce, and attaches a working repro and likely root cause to the ticket.",
+"tags": [
+"Bugs",
+"Diagnosis"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Form / document upload"
+},
+{
+"ind": "Software Development",
+"name": "Release Notes & Changelog Agent",
+"desc": "Generates customer-quality release notes from PRs, issues, and product context.",
+"tags": [
+"Release",
+"Product Marketing"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "Software Development",
+"name": "Infrastructure Cost Optimization Agent",
+"desc": "Reads cloud spend and utilization, identifies the highest-ROI optimizations, and ships the changes.",
+"tags": [
+"FinOps",
+"IaC"
+],
+"topo": "Data-grounded analytics",
+"entry": "Teams chat"
+},
+{
+"ind": "Software Development",
+"name": "Data Quality & Pipeline Agent",
+"desc": "Monitors pipelines, diagnoses data quality issues, and fixes the most common ones automatically.",
+"tags": [
+"DataEng",
+"Observability"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Software Development",
+"name": "Design-to-Code Agent",
+"desc": "Takes a design (Figma frame or screenshot), generates a working component in your conventions, and opens a PR.",
+"tags": [
+"Frontend",
+"Multi-modal"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "Software Development",
+"name": "API Integration Agent",
+"desc": "Reads third-party docs, generates the client and integration code, and ships the working PR.",
+"tags": [
+"Integration",
+"Codebase"
+],
+"topo": "Generative authoring pipeline",
+"entry": "System / API trigger"
+},
+{
+"ind": "Marketing & Sales",
+"name": "Outbound Prospecting Agent",
+"desc": "Builds the ICP, finds the right people, researches each, and sends personalized outbound that earns replies.",
+"tags": [
+"Outbound",
+"Research",
+"Sales"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "Marketing & Sales",
+"name": "Competitive Intelligence Agent",
+"desc": "Watches competitors continuously and produces decision-ready intel briefs for product, sales, and marketing.",
+"tags": [
+"Research",
+"Monitoring"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "System event / signal"
+},
+{
+"ind": "Marketing & Sales",
+"name": "Content Engine Agent",
+"desc": "Runs a content engine end-to-end — topic research, drafts, SEO, internal linking, publishing, refresh.",
+"tags": [
+"Content",
+"SEO"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "Marketing & Sales",
+"name": "Ad Creative & Iteration Agent",
+"desc": "Generates ad variants per audience, tests, learns, and reinvests budget into winners — across channels.",
+"tags": [
+"Performance",
+"Creative"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Form / document upload"
+},
+{
+"ind": "Marketing & Sales",
+"name": "Account-Based Orchestration Agent",
+"desc": "Coordinates multi-touch ABM plays per account — content, ads, outbound, and field — in concert.",
+"tags": [
+"ABM",
+"Orchestration"
+],
+"topo": "Orchestrator + parallel sub-agents",
+"entry": "Teams chat"
+},
+{
+"ind": "Marketing & Sales",
+"name": "AE Pre-Call Research Copilot",
+"desc": "Gives AEs a 60-second briefing before every call — account context, persona, recent news, and prep.",
+"tags": [
+"Sales",
+"Enablement"
+],
+"topo": "Conversational assist loop",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Marketing & Sales",
+"name": "Lifecycle Email Agent",
+"desc": "Designs, sends, and adapts lifecycle email per user — replacing campaign batches with continuous relevance.",
+"tags": [
+"Email",
+"Lifecycle"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "Email (shared mailboxes)"
+},
+{
+"ind": "Marketing & Sales",
+"name": "Event Personalization Agent",
+"desc": "Builds personal agendas for each registrant, matches them to people and sessions, and follows up post-event.",
+"tags": [
+"Events",
+"Personalization"
+],
+"topo": "Transactional integration",
+"entry": "System event / signal"
+},
+{
+"ind": "Marketing & Sales",
+"name": "Brand & Crisis Monitoring Agent",
+"desc": "Watches the brand surface, separates noise from real risk, and triggers playbooks before things escalate.",
+"tags": [
+"Brand",
+"Risk"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "System event / signal"
+},
+{
+"ind": "Marketing & Sales",
+"name": "SEO Technical Agent",
+"desc": "Audits the site, finds technical SEO issues, and ships fixes through the dev workflow.",
+"tags": [
+"SEO",
+"Engineering"
+],
+"topo": "Orchestrator + parallel sub-agents",
+"entry": "Teams chat"
+},
+{
+"ind": "Marketing & Sales",
+"name": "Attribution & Mix Modeling Agent",
+"desc": "Maintains a working mix model continuously, attributing revenue to channels and recommending budget shifts.",
+"tags": [
+"Analytics",
+"RevOps"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "Teams chat"
+},
+{
+"ind": "Marketing & Sales",
+"name": "Deal Desk Agent",
+"desc": "Reviews proposed deals, suggests structures, and drafts approval requests with deal-desk policy applied.",
+"tags": [
+"Sales Ops",
+"Decisioning"
+],
+"topo": "Decision + approval gate",
+"entry": "Teams chat"
+},
+{
+"ind": "Education",
+"name": "Adaptive 1:1 Tutor Agent",
+"desc": "A patient, expert tutor that adapts to the student's level, learning style, and current confusion in real time.",
+"tags": [
+"Tutoring",
+"Adaptive"
+],
+"topo": "Conversational assist loop",
+"entry": "Teams chat"
+},
+{
+"ind": "Education",
+"name": "Lesson Planning Agent",
+"desc": "Builds standards-aligned, differentiated lesson plans tailored to each teacher's class and style.",
+"tags": [
+"K-12",
+"Curriculum"
+],
+"topo": "Data-grounded analytics",
+"entry": "Teams chat"
+},
+{
+"ind": "Education",
+"name": "Open-Response Grading Agent",
+"desc": "Grades open-response work with calibrated rubrics, written feedback, and teacher override.",
+"tags": [
+"Assessment",
+"Feedback"
+],
+"topo": "Linear pipeline",
+"entry": "System event / signal"
+},
+{
+"ind": "Education",
+"name": "IEP Drafting Agent",
+"desc": "Drafts IEPs from assessment data, prior plans, and case-manager notes — compliance-clean and individualized.",
+"tags": [
+"Special Ed",
+"Compliance"
+],
+"topo": "Decision + approval gate",
+"entry": "Teams chat"
+},
+{
+"ind": "Education",
+"name": "Student Success Outreach Agent",
+"desc": "Detects at-risk students from academic and engagement signals and reaches out with the right support.",
+"tags": [
+"Higher Ed",
+"Retention"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "System event / signal"
+},
+{
+"ind": "Education",
+"name": "Conversational Language Coach",
+"desc": "An always-available speaking partner that corrects gently, adapts to fluency, and tracks long-term growth.",
+"tags": [
+"Voice",
+"Languages"
+],
+"topo": "Conversational assist loop",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Education",
+"name": "Academic Advising Agent",
+"desc": "Counsels students on courses, degree requirements, financial aid, and career paths — always available.",
+"tags": [
+"Higher Ed",
+"Advising"
+],
+"topo": "Linear pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "Education",
+"name": "Assessment Builder Agent",
+"desc": "Builds psychometrically sound assessments aligned to learning objectives — generating items and analyzing performance.",
+"tags": [
+"Assessment",
+"Psychometrics"
+],
+"topo": "Linear pipeline",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Education",
+"name": "Admissions Essay Coach",
+"desc": "Coaches applicants through their essays with Socratic prompts — not ghostwriting.",
+"tags": [
+"Admissions",
+"Coaching"
+],
+"topo": "Conversational assist loop",
+"entry": "Teams chat"
+},
+{
+"ind": "Education",
+"name": "Research Assistant for Faculty",
+"desc": "Helps faculty with literature review, grant writing, and student paper triage at PhD-RA quality.",
+"tags": [
+"Research",
+"Faculty"
+],
+"topo": "Retrieval-grounded analysis",
+"entry": "Teams chatbot"
+},
+{
+"ind": "Education",
+"name": "Education Compliance Reporting Agent",
+"desc": "Generates and submits Title IX, FERPA, and accreditation reports continuously instead of in annual sprints.",
+"tags": [
+"Compliance",
+"Reporting"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "Teams chat"
+},
+{
+"ind": "Education",
+"name": "Curriculum Design Agent",
+"desc": "Designs new courses and programs aligned to skills demand, accreditation, and faculty capacity.",
+"tags": [
+"Design",
+"Programs"
+],
+"topo": "Data-grounded analytics",
+"entry": "Teams chat"
+},
+{
+"ind": "Logistics & Supply Chain",
+"name": "Shipment Exception Agent",
+"desc": "Watches shipments, detects exceptions early, and coordinates resolution with carriers and customers.",
+"tags": [
+"Visibility",
+"Exception"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "Teams chat"
+},
+{
+"ind": "Logistics & Supply Chain",
+"name": "Freight Quoting & Tendering Agent",
+"desc": "Quotes freight in seconds across carriers and tenders shipments automatically per shipper policy.",
+"tags": [
+"Brokerage",
+"Pricing"
+],
+"topo": "Retrieval-grounded analysis",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Logistics & Supply Chain",
+"name": "Load Planning & Optimization Agent",
+"desc": "Plans daily loads — assigning shipments to vehicles with constraints, costs, and time windows respected.",
+"tags": [
+"Optimization",
+"Network"
+],
+"topo": "Data-grounded analytics",
+"entry": "Teams chat"
+},
+{
+"ind": "Logistics & Supply Chain",
+"name": "Carrier Invoice & Dispute Agent",
+"desc": "Reconciles carrier invoices against contracts, opens disputes for overcharges, and pursues to recovery.",
+"tags": [
+"Audit",
+"Recovery"
+],
+"topo": "Transactional integration",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Logistics & Supply Chain",
+"name": "Inventory Replenishment Agent",
+"desc": "Plans and triggers inventory replenishment by SKU x location, optimizing service vs. working capital.",
+"tags": [
+"Supply Chain",
+"Planning"
+],
+"topo": "Data-grounded analytics",
+"entry": "System / API trigger"
+},
+{
+"ind": "Logistics & Supply Chain",
+"name": "Customs Broker Agent",
+"desc": "Classifies goods, prepares customs entries, and coordinates clearance — across countries and regimes.",
+"tags": [
+"Customs",
+"Compliance"
+],
+"topo": "Decision + approval gate",
+"entry": "Teams chat"
+},
+{
+"ind": "Logistics & Supply Chain",
+"name": "Last-Mile Coordinator Agent",
+"desc": "Orchestrates last-mile delivery — driver assignment, customer comms, exception handling — end-to-end.",
+"tags": [
+"Last-Mile",
+"Real-time"
+],
+"topo": "Orchestrator + parallel sub-agents",
+"entry": "Teams chat"
+},
+{
+"ind": "Logistics & Supply Chain",
+"name": "Warehouse Ops Coordinator",
+"desc": "Coordinates warehouse work — picks, putaway, replenishment, and labor — adjusting plans to real conditions.",
+"tags": [
+"WMS",
+"Operations"
+],
+"topo": "Data-grounded analytics",
+"entry": "Teams chat"
+},
+{
+"ind": "Logistics & Supply Chain",
+"name": "Carrier Sourcing Agent",
+"desc": "Sources and qualifies new carriers — vetting safety, insurance, lanes, and capacity at scale.",
+"tags": [
+"Brokerage",
+"Vetting"
+],
+"topo": "Orchestrator + parallel sub-agents",
+"entry": "Teams chat"
+},
+{
+"ind": "Logistics & Supply Chain",
+"name": "Supplier PO Collaboration Agent",
+"desc": "Manages the supplier PO conversation — confirmations, ship dates, ASN, exceptions — across suppliers.",
+"tags": [
+"Procurement",
+"Suppliers"
+],
+"topo": "Conversational assist loop",
+"entry": "Teams chatbot"
+},
+{
+"ind": "Logistics & Supply Chain",
+"name": "Demand Sensing Agent",
+"desc": "Senses short-term demand shifts from POS, e-commerce, and external signals and updates the supply plan.",
+"tags": [
+"Forecasting",
+"Supply"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "System event / signal"
+},
+{
+"ind": "Logistics & Supply Chain",
+"name": "Logistics Sustainability Reporting Agent",
+"desc": "Tracks emissions per shipment, aggregates for compliance reporting, and surfaces decarbonization opportunities.",
+"tags": [
+"Sustainability",
+"Reporting"
+],
+"topo": "Decision + approval gate",
+"entry": "Teams chat"
+},
+{
+"ind": "Real Estate",
+"name": "Listing Content & Marketing Agent",
+"desc": "Generates listing copy, marketing materials, and channel-specific posts from photos and MLS data.",
+"tags": [
+"Marketing",
+"Multi-modal"
+],
+"topo": "Transactional integration",
+"entry": "Teams chat"
+},
+{
+"ind": "Real Estate",
+"name": "Buyer Concierge Agent",
+"desc": "24/7 concierge that qualifies buyers, answers listing questions, and books showings — without dropping leads.",
+"tags": [
+"Lead Gen",
+"Voice"
+],
+"topo": "Conversational assist loop",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Real Estate",
+"name": "Commercial Lease Abstraction",
+"desc": "Abstracts complex commercial leases — terms, options, recoveries, restrictions — for portfolio management.",
+"tags": [
+"Commercial",
+"Document AI"
+],
+"topo": "Retrieval-grounded analysis",
+"entry": "Form / document upload"
+},
+{
+"ind": "Real Estate",
+"name": "Property Valuation Agent",
+"desc": "Generates valuations with comps, adjustments, and a defensible narrative — residential or commercial.",
+"tags": [
+"Valuation",
+"Underwriting"
+],
+"topo": "Data-grounded analytics",
+"entry": "Teams chat"
+},
+{
+"ind": "Real Estate",
+"name": "Tenant Service Agent",
+"desc": "Handles tenant requests — maintenance, billing, lease — end-to-end with property-management system integration.",
+"tags": [
+"Property Mgmt",
+"Service"
+],
+"topo": "Transactional integration",
+"entry": "System / API trigger"
+},
+{
+"ind": "Real Estate",
+"name": "Investor Diligence Agent",
+"desc": "Performs investment diligence on properties and portfolios — financials, market, legal, physical.",
+"tags": [
+"Investment",
+"Document AI"
+],
+"topo": "Retrieval-grounded analysis",
+"entry": "Form / document upload"
+},
+{
+"ind": "Real Estate",
+"name": "Construction Coordination Agent",
+"desc": "Coordinates subs and suppliers — schedules, RFIs, change orders — on active projects.",
+"tags": [
+"Construction",
+"Scheduling"
+],
+"topo": "Orchestrator + parallel sub-agents",
+"entry": "Teams chat"
+},
+{
+"ind": "Real Estate",
+"name": "Mortgage Loan Processing Agent",
+"desc": "Processes mortgage applications — doc collection, verification, underwriting prep — at originator pace.",
+"tags": [
+"Mortgage",
+"Document AI"
+],
+"topo": "Decision + approval gate",
+"entry": "Form / document upload"
+},
+{
+"ind": "Real Estate",
+"name": "Market Intelligence Agent",
+"desc": "Tracks market signals (transactions, supply, rents) and produces decision-ready briefings.",
+"tags": [
+"Research",
+"Markets"
+],
+"topo": "Transactional integration",
+"entry": "System event / signal"
+},
+{
+"ind": "Real Estate",
+"name": "Transaction Coordinator Agent",
+"desc": "Coordinates the post-contract-to-close workflow — inspections, contingencies, title, lender, closing.",
+"tags": [
+"Transactions",
+"Coordination"
+],
+"topo": "Transactional integration",
+"entry": "Teams chat"
+},
+{
+"ind": "Real Estate",
+"name": "Rent Collection & Arrears Agent",
+"desc": "Manages rent collection, payment plans, and arrears resolution at scale — kindly and effectively.",
+"tags": [
+"Property Mgmt",
+"Collections"
+],
+"topo": "Transactional integration",
+"entry": "Teams chat"
+},
+{
+"ind": "Real Estate",
+"name": "Energy & Utility Optimization Agent",
+"desc": "Manages utility data across the portfolio, identifies savings, and executes rebates and demand-response.",
+"tags": [
+"Sustainability",
+"Operations"
+],
+"topo": "Data-grounded analytics",
+"entry": "Teams chat"
+},
+{
+"ind": "Insurance",
+"name": "First-Notice-of-Loss Claims Agent",
+"desc": "Takes the claim, gathers evidence, sets reserves, and routes — turning days of intake into a single conversation.",
+"tags": [
+"FNOL",
+"Voice"
+],
+"topo": "Conversational assist loop",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Insurance",
+"name": "Commercial Underwriting Submission Agent",
+"desc": "Reads submissions, extracts data, runs initial appetite check, and prepares the underwriter package.",
+"tags": [
+"Underwriting",
+"Document AI"
+],
+"topo": "Decision + approval gate",
+"entry": "Form / document upload"
+},
+{
+"ind": "Insurance",
+"name": "Policy Explanation Agent",
+"desc": "Explains policy coverage to policyholders in plain language — with citations to the specific section.",
+"tags": [
+"Policy",
+"Chat"
+],
+"topo": "Conversational assist loop",
+"entry": "Teams chatbot"
+},
+{
+"ind": "Insurance",
+"name": "Subrogation Recovery Agent",
+"desc": "Identifies subrogation opportunities in closed claims and pursues recovery from at-fault carriers.",
+"tags": [
+"Recovery",
+"Document AI"
+],
+"topo": "Retrieval-grounded analysis",
+"entry": "Form / document upload"
+},
+{
+"ind": "Insurance",
+"name": "Claim Fraud Detection Agent",
+"desc": "Investigates suspicious claims with cross-claim, social, and provider signals.",
+"tags": [
+"SIU",
+"Fraud"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "Form / document upload"
+},
+{
+"ind": "Insurance",
+"name": "Insurance Agent Copilot",
+"desc": "Real-time copilot for insurance agents — quoting, binding, servicing — across products.",
+"tags": [
+"Distribution",
+"Copilot"
+],
+"topo": "Conversational assist loop",
+"entry": "Teams chatbot"
+},
+{
+"ind": "Insurance",
+"name": "Loss Prevention Agent",
+"desc": "Engages policyholders proactively with risk advice based on their profile and changing conditions.",
+"tags": [
+"Prevention",
+"Engagement"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "System event / signal"
+},
+{
+"ind": "Insurance",
+"name": "Renewals Management Agent",
+"desc": "Manages the renewal pipeline — re-rating, outreach, retention conversations — across the book.",
+"tags": [
+"Renewals",
+"Retention"
+],
+"topo": "Conversational assist loop",
+"entry": "Teams chatbot"
+},
+{
+"ind": "Insurance",
+"name": "State Filing & Compliance Agent",
+"desc": "Tracks state filings (rate, form, surplus lines) and produces compliant submissions on schedule.",
+"tags": [
+"Compliance",
+"State"
+],
+"topo": "Decision + approval gate",
+"entry": "Form / document upload"
+},
+{
+"ind": "Insurance",
+"name": "Medical Bill Review Agent",
+"desc": "Reviews medical bills on injury claims for repricing, fraud signals, and treatment appropriateness.",
+"tags": [
+"WC",
+"Medical"
+],
+"topo": "Retrieval-grounded analysis",
+"entry": "Form / document upload"
+},
+{
+"ind": "Insurance",
+"name": "Catastrophe Response Agent",
+"desc": "Surges claim capacity during CAT events — triaging, assigning, and communicating with policyholders.",
+"tags": [
+"Catastrophe",
+"Multi-modal"
+],
+"topo": "Retrieval-grounded analysis",
+"entry": "Form / document upload"
+},
+{
+"ind": "Insurance",
+"name": "Direct-to-Consumer Quote Funnel Agent",
+"desc": "Drives the consumer quote experience conversationally — replacing forms with a natural dialog.",
+"tags": [
+"D2C",
+"Conversion"
+],
+"topo": "Conversational assist loop",
+"entry": "Teams chatbot"
+},
+{
+"ind": "Manufacturing",
+"name": "Predictive Maintenance Agent",
+"desc": "Watches asset signals, predicts failures, and schedules maintenance with the right parts and crew.",
+"tags": [
+"Reliability",
+"Signals"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "System event / signal"
+},
+{
+"ind": "Manufacturing",
+"name": "Quality Inspection Agent",
+"desc": "Inspects parts visually at line speed, classifies defects, and drives root-cause action.",
+"tags": [
+"Vision",
+"Quality"
+],
+"topo": "Linear pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "Manufacturing",
+"name": "Supplier Coordination Agent",
+"desc": "Manages supplier communications — POs, ASN, quality issues — across hundreds of suppliers.",
+"tags": [
+"Procurement",
+"Suppliers"
+],
+"topo": "Orchestrator + parallel sub-agents",
+"entry": "Teams chat"
+},
+{
+"ind": "Manufacturing",
+"name": "Production Scheduling Agent",
+"desc": "Builds and adapts the production schedule to real conditions — orders, materials, downtime, labor.",
+"tags": [
+"Planning",
+"Optimization"
+],
+"topo": "Data-grounded analytics",
+"entry": "Teams chat"
+},
+{
+"ind": "Manufacturing",
+"name": "Safety Incident & Near-Miss Agent",
+"desc": "Captures incidents from voice/photos, drafts the investigation report, and tracks corrective actions.",
+"tags": [
+"Safety",
+"Voice"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Manufacturing",
+"name": "Shop-Floor Operator Copilot",
+"desc": "An always-available copilot for operators — answers SOPs, logs events, escalates issues — by voice.",
+"tags": [
+"Voice",
+"MES"
+],
+"topo": "Conversational assist loop",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Manufacturing",
+"name": "Energy Optimization Agent",
+"desc": "Manages plant energy use — sequencing equipment, peak-shaving, and demand response — to cut spend.",
+"tags": [
+"Energy",
+"Optimization"
+],
+"topo": "Data-grounded analytics",
+"entry": "Teams chat"
+},
+{
+"ind": "Manufacturing",
+"name": "Supplier Quality Audit Agent",
+"desc": "Reviews supplier quality data, plans audits, and tracks corrective action across the supply base.",
+"tags": [
+"Quality",
+"Suppliers"
+],
+"topo": "Retrieval-grounded analysis",
+"entry": "Teams chat"
+},
+{
+"ind": "Manufacturing",
+"name": "Engineering Change Management Agent",
+"desc": "Manages engineering change requests — impact analysis, approvals, and downstream propagation.",
+"tags": [
+"Engineering",
+"PLM"
+],
+"topo": "Decision + approval gate",
+"entry": "System event / signal"
+},
+{
+"ind": "Manufacturing",
+"name": "Field Service Diagnostic Agent",
+"desc": "Diagnoses equipment issues remotely, generates work orders, and dispatches the right tech with the right parts.",
+"tags": [
+"Field Service",
+"Diagnosis"
+],
+"topo": "Orchestrator + parallel sub-agents",
+"entry": "Teams chat"
+},
+{
+"ind": "Manufacturing",
+"name": "Spare Parts Inventory Agent",
+"desc": "Optimizes spare parts stocking by asset, criticality, and lead time — across plants.",
+"tags": [
+"MRO",
+"Inventory"
+],
+"topo": "Linear pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "Manufacturing",
+"name": "Environmental Compliance Reporting Agent",
+"desc": "Tracks emissions, water, and waste; prepares regulatory submissions; drafts disclosures.",
+"tags": [
+"EHS",
+"Compliance"
+],
+"topo": "Decision + approval gate",
+"entry": "Form / document upload"
+},
+{
+"ind": "Media & Entertainment",
+"name": "Highlight Reel & Clip Agent",
+"desc": "Cuts highlight reels and clips from long-form content automatically, branded and channel-ready.",
+"tags": [
+"Video",
+"Multi-modal"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Media & Entertainment",
+"name": "Script Development Agent",
+"desc": "Develops scripts and treatments with the writer — research, character work, structure feedback.",
+"tags": [
+"Writing",
+"Development"
+],
+"topo": "Generative authoring pipeline",
+"entry": "System event / signal"
+},
+{
+"ind": "Media & Entertainment",
+"name": "Rights Clearance Agent",
+"desc": "Identifies rights issues across the catalog, secures clearances, and tracks usage.",
+"tags": [
+"Legal",
+"Catalog"
+],
+"topo": "Linear pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "Media & Entertainment",
+"name": "Translation & Localization Agent",
+"desc": "Localizes content across languages and markets — subtitles, dubs, cultural adaptation.",
+"tags": [
+"Voice",
+"Localization"
+],
+"topo": "Conversational assist loop",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Media & Entertainment",
+"name": "Content Discovery & Personalization Agent",
+"desc": "Recommends and packages content for each user — beyond passive recommendations.",
+"tags": [
+"Personalization",
+"Streaming"
+],
+"topo": "Generative authoring pipeline",
+"entry": "System event / signal"
+},
+{
+"ind": "Media & Entertainment",
+"name": "Ad Trafficking & QC Agent",
+"desc": "Reviews ad creative for spec, brand safety, and policy; traffics across systems.",
+"tags": [
+"AdOps",
+"Quality"
+],
+"topo": "Retrieval-grounded analysis",
+"entry": "System / API trigger"
+},
+{
+"ind": "Media & Entertainment",
+"name": "Trend Detection Agent",
+"desc": "Surfaces emerging trends, formats, and creators across platforms — early enough to act on.",
+"tags": [
+"Research",
+"Social"
+],
+"topo": "Event-driven monitoring loop",
+"entry": "Form / document upload"
+},
+{
+"ind": "Media & Entertainment",
+"name": "Podcast Production Agent",
+"desc": "Handles podcast post — editing, show notes, chapters, social cuts — at episode pace.",
+"tags": [
+"Audio",
+"Production"
+],
+"topo": "Transactional integration",
+"entry": "Teams chat"
+},
+{
+"ind": "Media & Entertainment",
+"name": "Live Events Production Agent",
+"desc": "Assists live production — graphics cues, replays, social, captions — in real time.",
+"tags": [
+"Live",
+"Real-time"
+],
+"topo": "Linear pipeline",
+"entry": "System event / signal"
+},
+{
+"ind": "Media & Entertainment",
+"name": "Content Moderation Agent",
+"desc": "Moderates UGC at scale across modalities with policy-aware decisions and rationale.",
+"tags": [
+"Trust & Safety",
+"Multi-modal"
+],
+"topo": "Decision + approval gate",
+"entry": "Teams chat"
+},
+{
+"ind": "Media & Entertainment",
+"name": "Creator Workflow Agent",
+"desc": "Helps creators plan, produce, post, and engage — at the cadence platforms reward.",
+"tags": [
+"Creator",
+"Workflow"
+],
+"topo": "Transactional integration",
+"entry": "Form / document upload"
+},
+{
+"ind": "Media & Entertainment",
+"name": "Fan Experience & Loyalty Agent",
+"desc": "Engages fans personally — answering questions, surfacing content, and driving merch/ticket conversion.",
+"tags": [
+"Fan",
+"Personalization"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Form / document upload"
+},
+{
+"ind": "Travel & Hospitality",
+"name": "Multi-City Itinerary Planner",
+"desc": "Plans complex multi-city itineraries from a casual conversation — flights, hotels, ground, activities.",
+"tags": [
+"Booking",
+"Optimization"
+],
+"topo": "Data-grounded analytics",
+"entry": "Teams chatbot"
+},
+{
+"ind": "Travel & Hospitality",
+"name": "Travel Disruption Recovery Agent",
+"desc": "When trips break (cancellation, weather, missed connection), the agent rebooks and coordinates without a hold.",
+"tags": [
+"Real-time",
+"Booking"
+],
+"topo": "Orchestrator + parallel sub-agents",
+"entry": "Teams chat"
+},
+{
+"ind": "Travel & Hospitality",
+"name": "In-Stay Hotel Concierge",
+"desc": "A 24/7 concierge guests use by chat or voice — requests, local recs, dining, transport.",
+"tags": [
+"Hospitality",
+"Voice"
+],
+"topo": "Conversational assist loop",
+"entry": "Voice / telephony"
+},
+{
+"ind": "Travel & Hospitality",
+"name": "Travel Loyalty Engagement Agent",
+"desc": "Engages members personally — surfacing redemptions, status moves, and trips matched to their profile.",
+"tags": [
+"Loyalty",
+"Personalization"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "Travel & Hospitality",
+"name": "Corporate Travel Policy Agent",
+"desc": "Books within corporate policy, answers expense questions, and reconciles trips back into the books.",
+"tags": [
+"Corporate",
+"Expense"
+],
+"topo": "Transactional integration",
+"entry": "Teams chat"
+},
+{
+"ind": "Travel & Hospitality",
+"name": "Destination Experience Agent",
+"desc": "Curates and books destination experiences based on guest interests, time, and weather.",
+"tags": [
+"Activities",
+"Personalization"
+],
+"topo": "Generative authoring pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "Travel & Hospitality",
+"name": "Airline IROPS Coordinator",
+"desc": "Coordinates IROPS — passenger rebooking, crew, equipment, comms — across the operation.",
+"tags": [
+"Airline",
+"Operations"
+],
+"topo": "Orchestrator + parallel sub-agents",
+"entry": "Teams chat"
+},
+{
+"ind": "Travel & Hospitality",
+"name": "Group Travel Coordinator",
+"desc": "Plans and coordinates group travel (corporate, weddings, sports, tours) end-to-end.",
+"tags": [
+"Groups",
+"Coordination"
+],
+"topo": "Orchestrator + parallel sub-agents",
+"entry": "Teams chat"
+},
+{
+"ind": "Travel & Hospitality",
+"name": "OTA Merchandising Agent",
+"desc": "Optimizes search, sort, and creative across the OTA for each user and market in real time.",
+"tags": [
+"OTA",
+"Merchandising"
+],
+"topo": "Linear pipeline",
+"entry": "Teams chat"
+},
+{
+"ind": "Travel & Hospitality",
+"name": "Hotel Revenue Management Agent",
+"desc": "Optimizes rates, restrictions, and overbooking across channels and segments in real time.",
+"tags": [
+"Revenue Mgmt",
+"Optimization"
+],
+"topo": "Data-grounded analytics",
+"entry": "Teams chat"
+},
+{
+"ind": "Travel & Hospitality",
+"name": "Travel Customer Service Agent",
+"desc": "Handles travel customer service — changes, refunds, complaints — across providers.",
+"tags": [
+"Service",
+"Resolution"
+],
+"topo": "Transactional integration",
+"entry": "Teams chat"
+},
+{
+"ind": "Travel & Hospitality",
+"name": "Visa & Travel Document Agent",
+"desc": "Helps travelers navigate visa and document requirements — across destinations and changing rules.",
+"tags": [
+"Documents",
+"Compliance"
+],
+"topo": "Decision + approval gate",
+"entry": "Form / document upload"
+}
+]

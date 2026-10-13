@@ -1,0 +1,439 @@
+---
+import Base from '../layouts/Base.astro';
+import Trace from '../components/Trace.astro';
+import Cta from '../components/Cta.astro';
+import { industries } from '../data/industries';
+import { patterns } from '../data/patterns';
+import { byIndustry, byPattern, counts } from '../data/usecases';
+import { stages } from '../data/accounting';
+import { stack, controls, phases } from '../data/stack';
+import { renderDiagram } from '../lib/diagram';
+
+const runs = [
+  {
+    label: 'Audit fieldwork',
+    steps: [
+      { kind: 'trigger', who: 'Intake', does: 'Client uploads 14 files against the year-end request list.' },
+      { kind: 'agent', who: 'Agent', does: 'Checks each file: right entity, right period, every page present.', note: '12 accepted. 2 returned: the bank statement stops at November and the lease schedule is last year’s.' },
+      { kind: 'tool', who: 'Tool call', does: 'Asks the client to resend both through the request portal.' },
+      { kind: 'data', who: 'Retrieval', does: 'Agrees the fixed-asset register to the trial balance.', note: 'Difference of £4,210 traced to a disposal posted after year end.' },
+      { kind: 'agent', who: 'Agent', does: 'Links accepted evidence to its workpapers and marks three sections ready to start.' },
+      { kind: 'human', who: 'In-charge', does: 'Reviews the two exceptions and the disposal, then releases the sections to the team.' },
+    ],
+  },
+  {
+    label: 'Fraud investigation',
+    steps: [
+      { kind: 'trigger', who: 'Intake', does: 'Card payment of €842 flagged by the rules engine.' },
+      { kind: 'agent', who: 'Orchestrator', does: 'Plans the investigation and assigns three specialist agents.' },
+      { kind: 'data', who: 'Retrieval', does: 'Pulls 30 days of transactions, device history and location.', note: 'New device. First payment in this country. Two declined attempts an hour earlier.' },
+      { kind: 'agent', who: 'Agent', does: 'Scores the case against known fraud patterns and writes the rationale.', note: 'Recommendation: hold the payment and contact the customer.' },
+      { kind: 'human', who: 'Analyst', does: 'Reads the case file, agrees, and confirms the hold.' },
+      { kind: 'tool', who: 'Tool call', does: 'Places the hold in core banking and messages the customer.' },
+    ],
+  },
+  {
+    label: 'Prior authorisation',
+    steps: [
+      { kind: 'trigger', who: 'Intake', does: 'A clinician orders an MRI that needs payer approval.' },
+      { kind: 'data', who: 'Retrieval', does: 'Retrieves the payer’s criteria and the relevant notes from the record.' },
+      { kind: 'agent', who: 'Agent', does: 'Drafts the request and attaches the supporting evidence.', note: 'One criterion unmet: no record of six weeks of conservative treatment.' },
+      { kind: 'human', who: 'Clinician', does: 'Confirms physiotherapy was completed elsewhere and adds the note.' },
+      { kind: 'tool', who: 'Tool call', does: 'Submits through the payer portal and sets a follow-up for 48 hours.' },
+      { kind: 'out', who: 'Result', does: 'Approval received. An appointment is offered to the patient.' },
+    ],
+  },
+  {
+    label: 'Shipment exception',
+    steps: [
+      { kind: 'data', who: 'Signal', does: 'The carrier feed shows a container missed its transshipment.' },
+      { kind: 'agent', who: 'Watcher', does: 'Estimates a six-day delay and finds three customer orders affected.' },
+      { kind: 'agent', who: 'Agent', does: 'Compares waiting, air-freighting part of the load, and supplying from another warehouse.', note: 'Cheapest option that protects all three delivery dates: split from the Midlands warehouse.' },
+      { kind: 'human', who: 'Planner', does: 'Approves the split shipment.' },
+      { kind: 'tool', who: 'Tool call', does: 'Raises the transfer order and rebooks the carrier.' },
+      { kind: 'out', who: 'Result', does: 'Customers are told their new delivery dates.' },
+    ],
+  },
+];
+
+const accountingCases = byIndustry('accounting-audit');
+---
+
+<Base title="Home">
+  <section class="band hero">
+    <div class="wrap hero-grid">
+      <div>
+        <h1>We build AI agents that finish the job and know when to ask.</h1>
+        <p class="lede">
+          RBS Technologies designs, builds and runs agentic AI for regulated and operational work. {counts.useCases} solution designs across {counts.industries} industries, each on the models and cloud that suit the job.
+        </p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="/solutions/">Browse the solutions</a>
+          <a class="btn btn-ghost" href="/contact/">Start a conversation</a>
+        </div>
+      </div>
+      <Trace title="One run, start to finish" runs={runs} autoplay />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="head">
+        <h2>Sixteen industries, one way of building.</h2>
+        <p class="lede">The domain changes. The engineering does not: a tested pattern, your systems, your rules, and a person on every decision that matters.</p>
+      </div>
+      <ul class="ind-list">
+        {
+          industries.map((i) => (
+            <li>
+              <a href={`/industries/${i.slug}/`}>
+                <span class="ind-name">{i.name}</span>
+                <span class="ind-line">{i.line}</span>
+                <span class="ind-n narrow">{byIndustry(i.slug).length} solutions</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section acct">
+    <div class="wrap">
+      <div class="head">
+        <h2>For accounting firms, from fieldwork to review.</h2>
+        <div class="stack">
+          <p class="lede">Firms sell judgement and spend their hours on assembly. We build the agents that clean client data, chase evidence, prepare workpapers and review them to your standards.</p>
+          <p><a class="btn btn-solid" href="/industries/accounting-audit/">See all {accountingCases.length} accounting solutions</a></p>
+        </div>
+      </div>
+      <div class="acct-grid">
+        {
+          stages.map((s) => (
+            <div>
+              <h3>{s.name}</h3>
+              <p class="muted">{s.blurb}</p>
+              <ul>
+                {accountingCases
+                  .filter((u) => u.stage === s.slug)
+                  .map((u) => (
+                    <li>
+                      <a href={`/solutions/${u.slug}/`}>{u.name.replace(/ Agent$/, '')}</a>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="head">
+        <h2>Every solution is one of nine patterns.</h2>
+        <p class="lede">We do not start from a blank page. Each pattern has a known shape, known failure modes and a known place for human control. Choose one to see it.</p>
+      </div>
+      <div class="pat" data-patterns>
+        <div class="pat-tabs" role="tablist" aria-label="Architecture patterns">
+          {
+            patterns.map((p, i) => (
+              <button type="button" role="tab" aria-selected={i === 4 ? 'true' : 'false'} aria-controls={`pat-${p.slug}`}>
+                <span>{p.name}</span>
+                <span class="narrow">{byPattern(p.slug).length}</span>
+              </button>
+            ))
+          }
+        </div>
+        {
+          patterns.map((p, i) => (
+            <div class="pat-panel" id={`pat-${p.slug}`} role="tabpanel" hidden={i !== 4}>
+              <div class="dg-frame" set:html={renderDiagram(p, (s) => s.replace('{trigger}', 'Trigger').replace('{system}', 'System of record').replace('{knowledge}', 'Knowledge sources'))} />
+              <div class="pat-text">
+                <p>
+                  <strong>Use it when:</strong> {p.when}
+                </p>
+                <p>
+                  <strong>Human control:</strong> {p.control}
+                </p>
+                <p>
+                  <a href={`/solutions/?pattern=${p.slug}`}>See the {byPattern(p.slug).length} solutions built this way</a>
+                </p>
+              </div>
+            </div>
+          ))
+        }
+        <div class="legend">
+          <span><i class="k-agent"></i>Agent reasoning</span>
+          <span><i class="k-tool"></i>System or tool</span>
+          <span><i class="k-data"></i>Data and knowledge</span>
+          <span><i class="k-human"></i>Person decides</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band section">
+    <div class="wrap">
+      <div class="head">
+        <h2>No house vendor.</h2>
+        <p class="lede">The right stack depends on your data, your cloud and the task. We choose per workload and keep the choice reversible.</p>
+      </div>
+      <dl class="facts">
+        {
+          stack.map((l) => (
+            <div>
+              <dt>{l.name}</dt>
+              <dd>{l.options.join(', ')}.</dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p style="margin-top:2rem"><a class="btn btn-ghost" href="/engineering/">How we choose and build</a></p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="head">
+        <h2>What it takes to trust an agent in production.</h2>
+        <p class="lede">A demo proves a model can do the task once. Production means proving it does the task every time, and knowing what happens when it does not.</p>
+      </div>
+      <div class="three">
+        {
+          controls.map((c) => (
+            <div>
+              <h3>{c.name}</h3>
+              <p class="muted">{c.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section deliver">
+    <div class="wrap">
+      <div class="head">
+        <h2>A working demo by week three. Production by week ten.</h2>
+        <p class="lede">Fixed price, fixed outcome. You see it working on your own data before you commit to the build.</p>
+      </div>
+      <ol class="phases">
+        {
+          phases.map((p, i) => (
+            <li>
+              <span class="phase-n">{i + 1}</span>
+              <h3>{p.name}</h3>
+              <p class="phase-when narrow">{p.when}</p>
+              <p class="muted">{p.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <p style="margin-top:2.5rem"><a href="/approach/">Read how an engagement runs</a></p>
+    </div>
+  </section>
+
+  <Cta />
+</Base>
+
+<script>
+  document.querySelectorAll('[data-patterns]').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('.pat-tabs button')];
+    const panels = [...root.querySelectorAll<HTMLElement>('.pat-panel')];
+    tabs.forEach((tab, i) =>
+      tab.addEventListener('click', () => {
+        tabs.forEach((t, j) => t.setAttribute('aria-selected', String(i === j)));
+        panels.forEach((p, j) => (p.hidden = i !== j));
+      }),
+    );
+  });
+</script>
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 7vw, 6rem) clamp(3.5rem, 8vw, 6.5rem);
+  }
+  .hero-grid {
+    display: grid;
+    gap: 3rem;
+    align-items: start;
+  }
+  @media (min-width: 64rem) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+      gap: 4rem;
+    }
+  }
+  .hero h1 {
+    max-width: 13ch;
+  }
+  .hero .lede {
+    margin-top: 1.75rem;
+  }
+  .hero .btn-row {
+    margin-top: 2.25rem;
+  }
+  .hero :global(.trace-steps) {
+    --trace-min: 27rem;
+  }
+
+  .ind-list {
+    border-top: 1.5px solid var(--ink);
+  }
+  .ind-list a {
+    display: grid;
+    gap: 0.15rem 2rem;
+    padding: 0.95rem 0;
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+    align-items: baseline;
+  }
+  @media (min-width: 52rem) {
+    .ind-list a {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 7fr) auto;
+    }
+  }
+  .ind-name {
+    font-size: var(--step-2);
+    font-weight: 650;
+    font-stretch: 112%;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+  }
+  .ind-line {
+    color: var(--muted);
+  }
+  .ind-n {
+    color: var(--muted);
+    font-size: var(--step--1);
+  }
+  .ind-list a:hover {
+    background: var(--white);
+    box-shadow: -1rem 0 0 var(--white), 1rem 0 0 var(--white);
+  }
+  .ind-list a:hover .ind-name {
+    color: var(--green-700);
+  }
+
+  .acct {
+    background: var(--white);
+    border-block: 1px solid var(--line);
+  }
+  .acct-grid {
+    display: grid;
+    gap: 2.5rem 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  }
+  .acct-grid h3 {
+    padding-top: 1rem;
+    border-top: 4px solid var(--green-700);
+  }
+  .acct-grid p {
+    margin-top: 0.5rem;
+    min-height: 3.2em;
+  }
+  .acct-grid ul {
+    margin-top: 1rem;
+  }
+  .acct-grid li {
+    border-top: 1px solid var(--line);
+  }
+  .acct-grid li a {
+    display: block;
+    padding: 0.6rem 0;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  .acct-grid li a:hover {
+    text-decoration: underline;
+    color: var(--green-700);
+  }
+
+  .pat {
+    display: grid;
+    gap: 1.5rem 3rem;
+  }
+  @media (min-width: 62rem) {
+    .pat {
+      grid-template-columns: 19rem minmax(0, 1fr);
+    }
+    .pat .legend {
+      grid-column: 2;
+    }
+  }
+  .pat-tabs {
+    display: flex;
+    flex-direction: column;
+    border-top: 1.5px solid var(--ink);
+    align-self: start;
+  }
+  .pat-tabs button {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    text-align: left;
+    background: none;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 0.8rem 0.75rem 0.8rem 0;
+    font: inherit;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .pat-tabs button:hover {
+    color: var(--ink);
+  }
+  .pat-tabs button[aria-selected='true'] {
+    color: var(--ink);
+    font-weight: 650;
+    box-shadow: inset 4px 0 0 var(--marigold);
+    padding-left: 0.9rem;
+    background: var(--white);
+  }
+  .pat-text {
+    margin-top: 1.5rem;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .three {
+    display: grid;
+    gap: 2.5rem 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  }
+  .three h3 {
+    font-size: var(--step-1);
+    margin-bottom: 0.6rem;
+  }
+
+  .deliver {
+    background: var(--white);
+    border-top: 1px solid var(--line);
+  }
+  .phases {
+    display: grid;
+    gap: 2.5rem 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    counter-reset: phase;
+  }
+  .phases li {
+    border-top: 1.5px solid var(--ink);
+    padding-top: 1rem;
+  }
+  .phase-n {
+    display: block;
+    font-size: var(--step-4);
+    font-weight: 700;
+    font-stretch: 125%;
+    color: var(--green-500);
+    line-height: 1;
+    margin-bottom: 0.75rem;
+  }
+  .phase-when {
+    font-weight: 600;
+    margin-block: 0.35rem 0.6rem;
+  }
+</style>

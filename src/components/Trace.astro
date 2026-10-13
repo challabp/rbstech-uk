@@ -1,0 +1,55 @@
+---
+// A replayable agent run, in the shape of an observability trace.
+export interface TraceStep {
+  kind: string;
+  who: string;
+  does: string;
+  note?: string;
+}
+export interface TraceRun {
+  label: string;
+  steps: TraceStep[];
+}
+interface Props {
+  title: string;
+  runs: TraceRun[];
+  autoplay?: boolean;
+  note?: string;
+}
+const { title, runs, autoplay = false, note = 'Illustrative run on sample data.' } = Astro.props;
+---
+
+<div class="trace" data-autoplay={autoplay ? '' : undefined}>
+  <div class="trace-bar">
+    <span class="trace-title">{title}</span>
+    <button class="trace-replay" type="button">Replay</button>
+  </div>
+  {
+    runs.length > 1 && (
+      <div class="trace-tabs" role="tablist" aria-label="Example runs">
+        {runs.map((r, i) => (
+          <button type="button" role="tab" aria-selected={i === 0 ? 'true' : 'false'}>
+            {r.label}
+          </button>
+        ))}
+      </div>
+    )
+  }
+  {
+    runs.map((r, i) => (
+      <ol class="trace-steps" hidden={i !== 0} aria-label={r.label}>
+        {r.steps.map((s, n) => (
+          <li class="trace-step">
+            <span class="trace-t">{n + 1}</span>
+            <span class={`trace-who who-${s.kind}`}>{s.who}</span>
+            <p>
+              {s.does}
+              {s.note && <small>{s.note}</small>}
+            </p>
+          </li>
+        ))}
+      </ol>
+    ))
+  }
+  <div class="trace-note">{note}</div>
+</div>

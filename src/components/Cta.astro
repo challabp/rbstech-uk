@@ -1,0 +1,21 @@
+---
+interface Props {
+  heading?: string;
+  text?: string;
+}
+const {
+  heading = 'Bring us the process that eats your team’s week.',
+  text = 'We will tell you whether an agent is the right answer, which pattern fits, and what it would take to run it in production.',
+} = Astro.props;
+---
+
+<section class="cta section-tight">
+  <div class="wrap">
+    <h2>{heading}</h2>
+    <p>{text}</p>
+    <div class="btn-row">
+      <a class="btn btn-solid" href="/contact/">Start a conversation</a>
+      <a class="btn btn-ghost" href="/solutions/">Browse the solutions</a>
+    </div>
+  </div>
+</section>

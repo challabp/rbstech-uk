@@ -1,0 +1,77 @@
+---
+import Base from '../../layouts/Base.astro';
+import Cta from '../../components/Cta.astro';
+import { industries } from '../../data/industries';
+import { byIndustry, counts } from '../../data/usecases';
+---
+
+<Base title="Industries" description={`AI agent solutions for ${counts.industries} industries, from accounting and banking to manufacturing and travel.`}>
+  <section class="band page-hero">
+    <div class="wrap">
+      <h1>The work differs by industry. So do the rules.</h1>
+      <p class="lede">For each industry we list the systems we expect to meet, the regulation that shapes the design, and the solutions we would start with.</p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap grid">
+      {
+        industries.map((i) => (
+          <a class="ind" href={`/industries/${i.slug}/`}>
+            <h2>{i.name}</h2>
+            <p class="muted">{i.line}</p>
+            <ul class="narrow">
+              {i.focus.map((f) => (
+                <li>{f}</li>
+              ))}
+            </ul>
+            <span class="n narrow">{byIndustry(i.slug).length} solutions</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <Cta />
+</Base>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(17.5rem, 1fr));
+    gap: 0 2.5rem;
+  }
+  .ind {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.5rem 0 2rem;
+    border-top: 1.5px solid var(--ink);
+    text-decoration: none;
+  }
+  .ind h2 {
+    font-size: var(--step-2);
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+  }
+  .ind:hover h2 {
+    color: var(--green-700);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.15em;
+  }
+  .ind ul {
+    margin-top: 0.4rem;
+    font-size: var(--step--1);
+  }
+  .ind li {
+    padding: 0.35rem 0;
+    border-top: 1px solid var(--line);
+  }
+  .n {
+    margin-top: auto;
+    padding-top: 0.75rem;
+    font-size: var(--step--1);
+    color: var(--muted);
+  }
+</style>
