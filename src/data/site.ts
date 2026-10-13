@@ -8,7 +8,7 @@ export const site = {
   // Web3Forms access key for the contact form. It is designed to be public: it only
   // allows sending to the inbox it was issued for. While empty, the form falls back
   // to opening the visitor's email app.
-  formKey: '',
+  formKey: '037c291a-8bd3-417b-8e90-ab32e3d1c03e',
   // Companies House number. Left empty until confirmed; the footer omits it while blank.
   companyNo: '',
   country: 'United Kingdom',
