@@ -20,18 +20,22 @@ const next = [
 
   <section class="section-tight">
     <div class="wrap split">
-      <form class="form" data-contact data-to={site.email}>
+      <form class="form" data-contact data-to={site.email} data-key={site.formKey || undefined}>
         <div class="row">
           <div class="field">
             <label for="name">Your name</label>
             <input id="name" name="name" autocomplete="name" required />
           </div>
           <div class="field">
-            <label for="org">Organisation</label>
-            <input id="org" name="org" autocomplete="organization" />
+            <label for="email">Your email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
           </div>
         </div>
         <div class="row">
+          <div class="field">
+            <label for="org">Organisation</label>
+            <input id="org" name="org" autocomplete="organization" />
+          </div>
           <div class="field">
             <label for="industry">Industry</label>
             <select id="industry" name="industry">
@@ -40,24 +44,30 @@ const next = [
               <option>Other</option>
             </select>
           </div>
-          <div class="field">
-            <label for="role">I am contacting you as</label>
-            <select id="role" name="role">
-              <option>A potential customer</option>
-              <option>An investor or portfolio team</option>
-              <option>A partner</option>
-              <option>Something else</option>
-            </select>
-          </div>
+        </div>
+        <div class="field">
+          <label for="role">I am contacting you as</label>
+          <select id="role" name="role">
+            <option>A potential customer</option>
+            <option>An investor</option>
+            <option>A partner</option>
+            <option>Something else</option>
+          </select>
         </div>
         <div class="field">
           <label for="msg">What would you like an agent to do?</label>
           <textarea id="msg" name="msg" required></textarea>
         </div>
+        <!-- Left empty by people; filled in by automated spam. -->
+        <div class="trap" aria-hidden="true">
+          <label for="website">Leave this field empty</label>
+          <input id="website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
         <div>
-          <button class="btn btn-solid" type="submit">Open email to send</button>
+          <button class="btn btn-solid" type="submit">{site.formKey ? 'Send message' : 'Open email to send'}</button>
+          <p class="status" data-status role="status" aria-live="polite"></p>
           <p class="small muted" style="margin-top:0.9rem">
-            This opens a pre-filled message in your email app. Nothing is sent or stored by this page. You can also write to us directly at <a href={`mailto:${site.email}`}>{site.email}</a>.
+            {site.formKey ? 'Your message comes straight to our inbox.' : 'This opens a pre-filled message in your email app.'} Or write to us at <a href={`mailto:${site.email}`}>{site.email}</a>
           </p>
         </div>
       </form>
@@ -84,16 +94,62 @@ const next = [
 
 <script>
   const form = document.querySelector<HTMLFormElement>('[data-contact]')!;
+  const status = form.querySelector<HTMLElement>('[data-status]')!;
+  const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+  const v = (n: string) => (form.elements.namedItem(n) as HTMLInputElement).value.trim();
+
   // Carry a solution or industry over from the page the visitor came from.
   const ref = new URLSearchParams(location.search).get('about');
   if (ref) (form.elements.namedItem('msg') as HTMLTextAreaElement).value = `I would like to talk about: ${ref}\n\n`;
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const v = (n: string) => (form.elements.namedItem(n) as HTMLInputElement).value.trim();
-    const subject = `Enquiry from ${v('name')}${v('org') ? `, ${v('org')}` : ''}`;
-    const details = [`Name: ${v('name')}`, v('org') && `Organisation: ${v('org')}`, v('industry') && `Industry: ${v('industry')}`, `Contacting as: ${v('role')}`].filter(Boolean);
+
+  const subject = () => `Enquiry from ${v('name')}${v('org') ? `, ${v('org')}` : ''}`;
+
+  function openEmail() {
+    const details = [`Name: ${v('name')}`, `Email: ${v('email')}`, v('org') && `Organisation: ${v('org')}`, v('industry') && `Industry: ${v('industry')}`, `Contacting as: ${v('role')}`].filter(Boolean);
     const body = [v('msg'), '', ...details].join('\n');
-    location.href = `mailto:${form.dataset.to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    location.href = `mailto:${form.dataset.to}?subject=${encodeURIComponent(subject())}&body=${encodeURIComponent(body)}`;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const key = form.dataset.key;
+    if (!key) return openEmail();
+    // A filled trap field means an automated submission: accept it silently and send nothing.
+    if (v('website')) {
+      status.dataset.state = 'ok';
+      status.textContent = 'Message sent. We will reply by email.';
+      return;
+    }
+    button.disabled = true;
+    status.dataset.state = '';
+    status.textContent = 'Sending…';
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: key,
+          subject: subject(),
+          from_name: 'rbstech.uk contact form',
+          name: v('name'),
+          email: v('email'),
+          organisation: v('org'),
+          industry: v('industry'),
+          contacting_as: v('role'),
+          message: v('msg'),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.success) throw new Error(data.message || 'Send failed');
+      form.reset();
+      status.dataset.state = 'ok';
+      status.textContent = 'Message sent. We will reply by email.';
+    } catch {
+      status.dataset.state = 'error';
+      status.textContent = 'Your message was not sent. Check your connection and send it again, or use the email address below.';
+    } finally {
+      button.disabled = false;
+    }
   });
 </script>
 
@@ -106,6 +162,23 @@ const next = [
     display: grid;
     gap: 1.5rem;
     grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  }
+  .trap {
+    position: absolute;
+    left: -9999px;
+  }
+  .status {
+    margin-top: 0.9rem;
+    font-weight: 600;
+  }
+  .status:empty {
+    display: none;
+  }
+  .status[data-state='ok'] {
+    color: var(--green-700);
+  }
+  .status[data-state='error'] {
+    color: var(--red);
   }
   aside h2 {
     font-size: var(--step-2);

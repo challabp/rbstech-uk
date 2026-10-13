@@ -15,7 +15,13 @@ import { site } from '../data/site';
       <div class="stack">
         <h2>What this site collects</h2>
         <p>This site sets no cookies and runs no analytics or advertising trackers. Fonts are served from this site, not from a third party.</p>
-        <p>The contact form does not send anything to us. It opens a pre-filled message in your own email application, and nothing reaches us unless you choose to send it.</p>
+        {
+          site.formKey ? (
+            <p>When you send the contact form, your name, email address and message are passed to Web3Forms, a form-delivery service, which emails them to us. Its handling of those details is described in its own privacy policy at web3forms.com.</p>
+          ) : (
+            <p>The contact form does not send anything to us. It opens a pre-filled message in your own email application, and nothing reaches us unless you choose to send it.</p>
+          )
+        }
       </div>
       <div class="stack">
         <h2>If you email us</h2>
@@ -24,7 +30,7 @@ import { site } from '../data/site';
       </div>
       <div class="stack">
         <h2>Your rights</h2>
-        <p>Under UK data protection law you can ask for a copy of the personal data we hold about you, ask us to correct or delete it, or object to how we use it. Write to <a href={`mailto:${site.email}`}>{site.email}</a>. You can also complain to the Information Commissioner’s Office at ico.org.uk.</p>
+        <p>Under UK data protection law you can ask for a copy of the personal data we hold about you, ask us to correct or delete it, or object to how we use it. To do any of these, email <a href={`mailto:${site.email}`}>{site.email}</a> and we will respond. You can also complain to the Information Commissioner’s Office at ico.org.uk.</p>
       </div>
     </div>
   </section>
