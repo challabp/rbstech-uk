@@ -4,7 +4,7 @@ export const site = {
   name: 'RBS Technologies',
   legal: 'RBS Technologies Ltd',
   url: 'https://rbstech.uk',
-  email: 'hello@rbstech.uk',
+  email: 'bhanu@rbstech.uk',
   // Web3Forms access key for the contact form. It is designed to be public: it only
   // allows sending to the inbox it was issued for. While empty, the form falls back
   // to opening the visitor's email app.
