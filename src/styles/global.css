@@ -723,3 +723,57 @@ ol {
     animation: none !important;
   }
 }
+
+/* Cylinder scroll: blocks tilt away slightly as they enter at the bottom of the
+   screen and leave at the top, as if the page were wrapped round a large drum.
+   Runs only where the browser supports scroll-driven animation and the visitor
+   has not asked for reduced motion; everywhere else the page is simply flat. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    /* tilted blocks are a touch wider at their near edge; keep that from adding a sideways scrollbar */
+    main {
+      overflow-x: clip;
+    }
+    .head,
+    .uc,
+    .ind-list li,
+    .kinds a,
+    .three > div,
+    .phases li,
+    .timeline li,
+    .layer,
+    .design,
+    .controls > div,
+    .aud > div,
+    .grid > div,
+    .cols > div,
+    .layers > li,
+    .group-head,
+    .sections > *,
+    main .facts > div,
+    .cta .wrap,
+    .examples li {
+      animation: cylinder linear both;
+      /* the top inset is the sticky header, so the tilt is visible below it */
+      animation-timeline: view(block 4.25rem 0px);
+      animation-range: cover 0% cover 100%;
+      transform-origin: 50% 50%;
+      backface-visibility: hidden;
+    }
+  }
+}
+@keyframes cylinder {
+  0% {
+    transform: perspective(1100px) rotateX(-16deg) scale(0.975);
+    opacity: 0.55;
+  }
+  16%,
+  84% {
+    transform: perspective(1100px) rotateX(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(1100px) rotateX(16deg) scale(0.975);
+    opacity: 0.55;
+  }
+}
