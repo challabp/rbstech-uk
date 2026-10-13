@@ -8,14 +8,14 @@ export const site = {
   // Companies House number. Left empty until confirmed; the footer omits it while blank.
   companyNo: '',
   country: 'United Kingdom',
-  tagline: 'AI agents engineered for production',
+  tagline: 'AI agents for everyday business work',
   description:
-    'RBS Technologies designs, builds and runs AI agents for regulated and operational work across sixteen industries, on the model and cloud stack that suits each job.',
+    'RBS Technologies builds AI agents that take routine work off your team, with your people in charge of the important decisions. Solutions for sixteen industries.',
 };
 
 export const nav = [
   { href: '/solutions/', label: 'Solutions' },
   { href: '/industries/', label: 'Industries' },
-  { href: '/engineering/', label: 'Engineering' },
-  { href: '/approach/', label: 'Approach' },
+  { href: '/approach/', label: 'How we work' },
+  { href: '/technology/', label: 'Technology' },
 ];

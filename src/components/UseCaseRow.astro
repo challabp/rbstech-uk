@@ -1,7 +1,7 @@
 ---
 import type { UseCase } from '../data/usecases';
 import { industryBySlug } from '../data/industries';
-import { patternBySlug } from '../data/patterns';
+import { plain } from '../data/plain';
 
 interface Props {
   u: UseCase;
@@ -9,12 +9,12 @@ interface Props {
 }
 const { u, showIndustry = false } = Astro.props;
 const ind = industryBySlug[u.industry];
-const pat = patternBySlug[u.pattern];
-const hay = `${u.name} ${u.summary} ${u.tags.join(' ')} ${ind.name} ${pat.name}`.toLowerCase();
+const kind = plain[u.pattern].label;
+const hay = `${u.name} ${u.summary} ${u.tags.join(' ')} ${ind.name} ${kind}`.toLowerCase();
 ---
 
-<a class="uc" href={`/solutions/${u.slug}/`} data-industry={u.industry} data-pattern={u.pattern} data-new={u.isNew ? '' : undefined} data-hay={hay}>
+<a class="uc" href={`/solutions/${u.slug}/`} data-industry={u.industry} data-pattern={u.pattern} data-hay={hay}>
   <span class="uc-name">{u.name}</span>
   <span class="uc-sum">{u.summary}</span>
-  <span class="uc-meta">{showIndustry ? ind.name : pat.name}</span>
+  <span class="uc-meta">{showIndustry ? ind.name : kind}</span>
 </a>

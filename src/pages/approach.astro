@@ -5,74 +5,71 @@ import { phases } from '../data/stack';
 
 const audiences = [
   {
-    name: 'Operators',
-    who: 'Heads of operations, finance, risk and technology with a process that will not scale by hiring.',
-    get: 'A production agent on your own systems, with the evaluation results to take to your risk committee.',
+    name: 'Businesses',
+    who: 'Organisations with work that keeps growing faster than the team that does it.',
+    get: 'An AI agent working in your own systems, tested on your own cases, with your people approving the important decisions.',
   },
   {
-    name: 'Investors and portfolio teams',
-    who: 'Private equity, venture and holding groups looking for margin across several companies at once.',
-    get: 'A repeatable build that can be rolled out company by company, with one data model and one set of controls underneath.',
+    name: 'Investors',
+    who: 'Investment firms that own several companies and want each of them to run more efficiently.',
+    get: 'A solution that is built once and then introduced company by company, with the same safeguards in each.',
   },
   {
-    name: 'Product and platform partners',
-    who: 'Software companies and service firms that need agentic features or an engineering team to deliver them.',
-    get: 'Agents built inside your product or delivered under your name, with the documentation to maintain them.',
+    name: 'Partners',
+    who: 'Software companies and consultancies that want to offer AI agents to their own customers.',
+    get: 'Agents built into your product or delivered under your name, with everything your team needs to maintain them.',
   },
 ];
 
 const deliverables = [
-  'A written design: pattern, integrations, approval classes and data flows',
-  'An evaluation set built from your real cases and signed off by your experts',
-  'The agent, deployed in your cloud tenancy',
-  'Tracing, cost and quality dashboards',
-  'A runbook, a kill switch and a rehearsed fallback to the manual process',
-  'Source code and prompts. You own what we build for you',
+  'A clear written plan of what the agent will do and where your people approve',
+  'A set of real test cases, agreed with your experts, that the agent must pass',
+  'The working agent, running in your own systems',
+  'Reports showing how well it is performing and what it costs to run',
+  'A guide for your team, including how to pause the agent and return to the manual process',
+  'Ownership of everything we build for you',
 ];
 
 const principles = [
   {
-    name: 'Start with the work, not the model',
-    text: 'We watch the process being done before we design anything. Most of what makes an agent succeed is in the exceptions people handle without thinking.',
+    name: 'Start with the work',
+    text: 'We watch how the work is really done before we design anything. The unusual cases that people handle without thinking are usually what decides whether an agent succeeds.',
   },
   {
     name: 'Measure against your experts',
-    text: 'Success is defined by a test set your own people have answered. If the agent cannot match them on the cases that matter, we say so at week three.',
+    text: 'We test the agent on real cases that your own people have already answered. If it cannot match them where it matters, we tell you early.',
   },
   {
-    name: 'Automate in steps',
-    text: 'New agents begin by preparing work for a person to approve. Actions move to automatic only when the evidence supports it, one class of action at a time.',
+    name: 'Automate step by step',
+    text: 'A new agent starts by preparing work for a person to approve. It is allowed to act on its own only when the results show it can be trusted, one kind of action at a time.',
   },
   {
-    name: 'Build to hand over',
-    text: 'Standard frameworks, documented decisions and no proprietary runtime. Your team should be able to run and change what we deliver.',
+    name: 'Build it so you can run it',
+    text: 'We use widely adopted technology and document our decisions, so your own team can run and change what we deliver.',
   },
 ];
 ---
 
-<Base title="Approach" description="How an engagement with RBS Technologies runs: discovery, a working demo on your data by week three, production by week ten, fixed price and fixed outcome.">
+<Base title="How we work" description="How RBS Technologies works with you: scoping, proof on your own data, build and launch, and support. Timelines are agreed after scoping.">
   <section class="band page-hero">
     <div class="wrap">
-      <h1>Fixed price. Fixed outcome. Proof before you commit.</h1>
-      <p class="lede">We scope each engagement around one process and one measurable result, show it working on your data early, and release only when it passes the tests you agreed.</p>
+      <h1>See it work on your own data before you commit.</h1>
+      <p class="lede">We start with one piece of work and one clear goal, show you the agent working early, and launch only when it passes the tests we agreed with you.</p>
     </div>
   </section>
 
   <section class="section">
     <div class="wrap">
       <div class="head">
-        <h2>How an engagement runs.</h2>
-        <p class="lede">Ten weeks from first conversation to production is typical for a single agent. Larger programmes run several in parallel on shared foundations.</p>
+        <h2>Four stages.</h2>
+        <p class="lede">How long each stage takes depends on how complex the work is. We agree the timeline and the price with you at the end of scoping, before any build begins.</p>
       </div>
       <ol class="timeline">
         {
           phases.map((p, i) => (
             <li>
               <span class="n">{i + 1}</span>
-              <div>
-                <h3>{p.name}</h3>
-                <p class="when narrow">{p.when}</p>
-              </div>
+              <h3>{p.name}</h3>
               <p>{p.text}</p>
             </li>
           ))
@@ -85,7 +82,7 @@ const principles = [
     <div class="wrap split">
       <div>
         <h2>What you have at the end.</h2>
-        <p class="lede" style="margin-top:1.25rem">Everything needed to run the agent without us, whether or not you choose to.</p>
+        <p class="lede" style="margin-top:1.25rem">Everything you need to run the agent yourselves, whether or not you choose to.</p>
       </div>
       <ul class="ticks big">
         {deliverables.map((d) => <li>{d}</li>)}
@@ -96,7 +93,7 @@ const principles = [
   <section class="section">
     <div class="wrap">
       <div class="head">
-        <h2>How we work.</h2>
+        <h2>What we believe.</h2>
       </div>
       <div class="grid">
         {
@@ -130,7 +127,7 @@ const principles = [
     </div>
   </section>
 
-  <Cta heading="Start with a 45-minute conversation." text="Tell us about the process. We will tell you honestly whether we think an agent can do it, and what the first ten weeks would look like." />
+  <Cta heading="Start with a conversation." text="Tell us about the work. We will tell you honestly whether we think an AI agent can do it, and what the first step would be." />
 </Base>
 
 <style>
@@ -159,11 +156,6 @@ const principles = [
     font-stretch: 125%;
     line-height: 0.9;
     color: var(--green-500);
-  }
-  .when {
-    font-weight: 600;
-    margin-top: 0.35rem;
-    color: var(--muted);
   }
   .timeline li > p {
     font-size: var(--step-1);

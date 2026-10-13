@@ -19,26 +19,26 @@ const groups = isAccounting
   ? stages.map((s) => ({ ...s, cases: cases.filter((u) => u.stage === s.slug) }))
   : [
       { slug: 'core', name: '', blurb: '', cases: cases.filter((u) => !u.isNew) },
-      { slug: 'recent', name: 'Added for 2026', blurb: 'Newer problems, and older ones that current models have made practical.', cases: cases.filter((u) => u.isNew) },
+      { slug: 'recent', name: 'Added for 2026', blurb: 'Newer problems, and older ones that the latest AI has made practical to solve.', cases: cases.filter((u) => u.isNew) },
     ].filter((g) => g.cases.length);
 
 // How the pieces fit together inside a firm, shown on the accounting page only.
 const firmLayers = [
   {
-    name: 'One hub underneath',
-    text: 'Engagement, practice, document, request and staffing systems connected into one governed data model. It is the foundation every agent works from, and it is what lets a group of firms see itself as one business.',
+    name: 'Connect the firm’s systems',
+    text: 'Engagement, practice, document and staffing systems linked together, so information is entered once and is available everywhere. A group of firms can see itself as one business.',
   },
   {
-    name: 'Your methodology, executable',
-    text: 'Audit manuals, templates and review standards turned into checks an agent can run. Each firm keeps its own way of working; the agents follow it instead of replacing it.',
+    name: 'Follow your way of working',
+    text: 'Your audit manuals, templates and review standards are built into the agents. Each firm keeps its own methods, and the agents follow them.',
   },
   {
-    name: 'Agents on the work',
-    text: 'Fieldwork, review, tax and operations agents that share the same data and the same rules, so evidence accepted on Monday is in the workpaper and on the schedule by Tuesday.',
+    name: 'Agents on the routine work',
+    text: 'Agents clean the data, chase the documents, prepare the workpapers and check them. They share the same information, so a document accepted on Monday is in the workpaper and on the schedule by Tuesday.',
   },
   {
     name: 'People on the judgement',
-    text: 'Every conclusion, sign-off and client decision stays with a qualified person. The agents prepare, check and chase, and they show their evidence.',
+    text: 'Every conclusion, sign-off and client decision stays with a qualified person. The agents prepare, check and chase, and they always show their evidence.',
   },
 ];
 ---
@@ -57,8 +57,8 @@ const firmLayers = [
       <section class="section-tight fit">
         <div class="wrap">
           <div class="head">
-            <h2>Capacity comes from connecting the work, not from one clever tool.</h2>
-            <p class="lede">A firm’s hours leak at the joins: between the client and the request list, the request list and the workpaper, the workpaper and the schedule. We build across those joins.</p>
+            <h2>More capacity, without more people.</h2>
+            <p class="lede">Time is lost in the handovers: from the client to the request list, from the request list to the workpaper, from the workpaper to the schedule. We build agents that work across all of them.</p>
           </div>
           <ol class="layers">
             {firmLayers.map((l) => (
@@ -98,19 +98,19 @@ const firmLayers = [
   <section class="section-tight context">
     <div class="wrap cols">
       <div>
-        <h2>Systems we expect to meet</h2>
+        <h2>Systems we work with</h2>
         <ul class="ticks">
           {ind.systems.map((s) => <li>{s}</li>)}
         </ul>
       </div>
       <div>
-        <h2>Rules that shape the design</h2>
+        <h2>Rules and standards we design for</h2>
         <ul class="ticks">
           {ind.rules.map((s) => <li>{s}</li>)}
         </ul>
       </div>
       <div>
-        <h2>Where agents pay back first</h2>
+        <h2>Good places to start</h2>
         <ul class="ticks">
           {ind.focus.map((s) => <li>{s}</li>)}
         </ul>
@@ -120,7 +120,7 @@ const firmLayers = [
 
   <Cta
     heading={isAccounting ? 'Show us one engagement, start to finish.' : undefined}
-    text={isAccounting ? 'We will map where the hours go, pick the first two agents worth building, and run them on last year’s file so you can compare the result with what your team produced.' : undefined}
+    text={isAccounting ? 'We will look at where the hours go, choose the first two agents worth building, and run them on last year’s file so you can compare the result with what your team produced.' : undefined}
   />
 </Base>
 

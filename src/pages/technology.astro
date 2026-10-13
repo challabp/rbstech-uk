@@ -1,0 +1,245 @@
+---
+import Base from '../layouts/Base.astro';
+import Cta from '../components/Cta.astro';
+import { patterns } from '../data/patterns';
+import { plain } from '../data/plain';
+import { byPattern } from '../data/usecases';
+import { stack, controls, approvalClasses } from '../data/stack';
+import { renderDiagram } from '../lib/diagram';
+
+const generic = (s: string) => s.replace('{trigger}', 'Trigger').replace('{system}', 'System of record').replace('{knowledge}', 'Knowledge sources');
+---
+
+<Base title="Technology" description="The technology RBS Technologies builds with, the nine designs our AI agents follow, and the safeguards built into each one.">
+  <section class="band page-hero">
+    <div class="wrap">
+      <h1>The technology behind our agents.</h1>
+      <p class="lede">This page is for readers who want the detail: what we build with, how each kind of agent is designed, and the safeguards built in.</p>
+      <nav class="jump" aria-label="On this page">
+        <a href="#stack">What we build with</a>
+        <a href="#designs">Agent designs</a>
+        <a href="#safeguards">Safeguards</a>
+      </nav>
+    </div>
+  </section>
+
+  <section class="section" id="stack">
+    <div class="wrap">
+      <div class="head">
+        <h2>What we build with.</h2>
+        <p class="lede">We are not tied to any AI company or cloud provider. For each part of an agent, this is what we choose from and how we decide.</p>
+      </div>
+      <div class="layers">
+        {
+          stack.map((l) => (
+            <article class="layer">
+              <div>
+                <h3>{l.name}</h3>
+                <p class="muted">{l.role}</p>
+              </div>
+              <p>{l.choose}</p>
+              <ul class="tags">
+                {l.options.map((o) => (
+                  <li class="tag">{o}</li>
+                ))}
+              </ul>
+            </article>
+          ))
+        }
+      </div>
+      <p class="small muted" style="margin-top:1.5rem">Product names are examples of the technology we work with and belong to their owners. They do not indicate a partnership.</p>
+    </div>
+  </section>
+
+  <section class="section white" id="designs">
+    <div class="wrap">
+      <div class="head">
+        <h2>Nine agent designs.</h2>
+        <p class="lede">Every solution we build follows one of nine proven designs, chosen to suit the kind of work and the risk involved. Open any one to see the diagram.</p>
+      </div>
+      {
+        patterns.map((p) => {
+          const k = plain[p.slug];
+          const examples = byPattern(p.slug).slice(0, 3);
+          return (
+            <article class="design" id={p.slug}>
+              <div class="design-head">
+                <h3>{k.label}</h3>
+                <p>{k.summary}</p>
+              </div>
+              <dl class="facts">
+                <div>
+                  <dt>Use it when</dt>
+                  <dd>{p.when}</dd>
+                </div>
+                <div>
+                  <dt>People in control</dt>
+                  <dd>{k.control}</dd>
+                </div>
+                <div>
+                  <dt>Examples</dt>
+                  <dd>
+                    {examples.map((u, i) => (
+                      <>
+                        <a href={`/solutions/${u.slug}/`}>{u.name}</a>
+                        {i < examples.length - 1 ? ', ' : '. '}
+                      </>
+                    ))}
+                    <a href={`/solutions/?pattern=${p.slug}`}>See all {byPattern(p.slug).length}</a>
+                  </dd>
+                </div>
+              </dl>
+              <details>
+                <summary>Show the technical design</summary>
+                <div class="tech">
+                  <p>
+                    <strong>{p.name}.</strong> {p.why}
+                  </p>
+                  <div class="dg-frame" set:html={renderDiagram(p, generic)} />
+                  <div class="legend">
+                    <span><i class="k-agent"></i>The agent thinking</span>
+                    <span><i class="k-tool"></i>One of your systems</span>
+                    <span><i class="k-data"></i>Your data and documents</span>
+                    <span><i class="k-human"></i>A person decides</span>
+                  </div>
+                  <p class="small muted">Typically built with: {p.stack.join('; ').toLowerCase()}.</p>
+                </div>
+              </details>
+            </article>
+          );
+        })
+      }
+    </div>
+  </section>
+
+  <section class="band section" id="safeguards">
+    <div class="wrap">
+      <div class="head">
+        <h2>Safeguards in every agent.</h2>
+        <p class="lede">These are part of the build and are in place from the first day of live use.</p>
+      </div>
+      <div class="controls">
+        {
+          controls.map((c) => (
+            <div>
+              <h3>{c.name}</h3>
+              <p class="muted">{c.text}</p>
+            </div>
+          ))
+        }
+      </div>
+
+      <h3 class="sub">Four levels of approval</h3>
+      <p class="muted" style="margin-bottom:1.25rem">Every action an agent can take is given one of these levels. You choose the level for each action.</p>
+      <dl class="facts">
+        {
+          approvalClasses.map((a) => (
+            <div>
+              <dt>{a.name}</dt>
+              <dd>{a.text}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <Cta heading="Have a technical question?" text="Send us your design or your problem. We will tell you how we would approach it and why." />
+</Base>
+
+<style>
+  .jump {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.75rem;
+  }
+  .white {
+    background: var(--white);
+    border-block: 1px solid var(--line);
+  }
+  .layers {
+    border-top: 1.5px solid var(--ink);
+  }
+  .layer {
+    display: grid;
+    gap: 1rem 2.5rem;
+    padding: 1.75rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  @media (min-width: 60rem) {
+    .layer {
+      grid-template-columns: 15rem minmax(0, 1fr) minmax(0, 1fr);
+      align-items: start;
+    }
+  }
+  .layer h3 {
+    margin-bottom: 0.35rem;
+  }
+  .layer .tags {
+    align-content: start;
+  }
+  .design {
+    padding-block: 2.25rem;
+    border-top: 1.5px solid var(--ink);
+    scroll-margin-top: 5rem;
+    display: grid;
+    gap: 1.5rem 3.5rem;
+  }
+  @media (min-width: 62rem) {
+    .design {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    }
+    .design details {
+      grid-column: 2;
+    }
+  }
+  .design-head h3 {
+    font-size: var(--step-3);
+    margin-bottom: 0.75rem;
+  }
+  .design-head p {
+    font-size: var(--step-1);
+    line-height: 1.45;
+    color: var(--muted);
+  }
+  .design .facts {
+    border-top: 0;
+  }
+  .design .facts > div:first-child {
+    padding-top: 0;
+  }
+  @media (min-width: 44rem) {
+    .design .facts > div {
+      grid-template-columns: 10rem 1fr;
+    }
+  }
+  summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--green-700);
+    padding: 0.25rem 0;
+    width: fit-content;
+  }
+  .tech {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.25rem;
+  }
+  .tech .legend {
+    margin-top: 0;
+  }
+  .controls {
+    display: grid;
+    gap: 2.5rem 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  }
+  .controls h3 {
+    font-size: var(--step-1);
+    margin-bottom: 0.6rem;
+  }
+  .sub {
+    margin-top: 4rem;
+    margin-bottom: 0.75rem;
+  }
+</style>

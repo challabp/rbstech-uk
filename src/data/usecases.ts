@@ -2,7 +2,9 @@ import legacy from './legacy.json';
 import { additions, type Addition } from './additions';
 import { accounting } from './accounting';
 import { industries, industryByLegacy, industryBySlug } from './industries';
-import { patternByLegacy, patternBySlug, type Pattern, type Step } from './patterns';
+import { patternByLegacy, patternBySlug } from './patterns';
+import { plain } from './plain';
+import { summaries, names } from './summaries';
 
 export interface UseCase {
   slug: string;
@@ -21,6 +23,7 @@ export interface UseCase {
   gate?: string;
   integrates?: string[];
   measures?: string[];
+  benefits?: string[];
 }
 
 interface LegacyRow {
@@ -133,38 +136,15 @@ const patternFix: Record<string, string> = {
   'Spare Parts Inventory Agent': P.data,
 };
 
-// Summaries rewritten where the original overclaimed or was specific to one market.
-const summaryFix: Record<string, string> = {
-  'Prior Authorization Agent': 'Drafts, submits and follows up on prior-authorisation requests across payer portals, so staff handle only the exceptions.',
-  'Dispute Resolution Agent': 'Takes a customer chargeback claim, gathers the evidence and decides within policy limits, referring anything above them.',
-  'Fraud Investigation Agent': 'Investigates flagged transactions end to end and produces a decision-ready case file for the analyst.',
-  'Voice Deflection & IVR Replacement': 'Replaces the phone menu with a real conversation that resolves routine calls and hands over with full context when it cannot.',
-  'Warranty & Claims Agent': 'Diagnoses the issue, checks warranty eligibility and ships the replacement, with approval required above policy limits.',
-  'Multilingual Support Agent': 'Provides fluent support across languages without staffing a separate team for each one.',
-  'eDiscovery Review Agent': 'Reviews discovery documents for relevance and privilege, with lawyer sampling to validate its calls.',
-  'Research Assistant for Faculty': 'Helps faculty with literature review, grant writing and triage of student papers, with every source cited.',
-  'Legal Research Agent': 'Researches an issue across case law and legislation and drafts a memo with every authority cited and checked.',
-  'Inventory Rebalance Agent': 'Monitors demand signals, predicts stockouts and rebalances inventory across stores and distribution centres within approved limits.',
-  'Agent Copilot': 'Works alongside the human agent in the console: finds answers, drafts replies and carries out system actions on request.',
-  'Infrastructure Cost Optimization Agent': 'Reads cloud spend and utilisation, identifies the highest-return savings and opens the changes for approval.',
-  'Content Moderation Agent': 'Moderates user content across text, image and video with policy-aware decisions, a stated rationale and human appeal.',
-  'Voice Phone Screen Agent': 'Conducts the first phone screen on qualifications, pay and logistics, and passes a structured brief to the recruiter who decides.',
-  'Candidate Sourcing Agent': 'Finds and scores candidates against the role and drafts personal outreach for the recruiter to send.',
-};
-
-const nameFix: Record<string, string> = {
-  'Agent Copilot': 'Agent Assist',
-  'Voice Deflection & IVR Replacement': 'Voice Agent and IVR Replacement',
-};
-
 function fromLegacy(r: LegacyRow): UseCase {
   const ind = industryByLegacy[r.ind];
   const pattern = patternFix[r.name] ?? patternByLegacy[r.topo].slug;
-  const name = british(nameFix[r.name] ?? r.name);
+  const name = british(names[r.name] ?? r.name);
+  if (!summaries[r.name]) throw new Error(`No plain-language summary for ${r.name}`);
   return {
     slug: slugify(name),
     name,
-    summary: summaryFix[r.name] ?? british(r.desc),
+    summary: summaries[r.name],
     industry: ind.slug,
     pattern,
     tags: r.tags.map(british),
@@ -211,13 +191,11 @@ export const byPattern = (slug: string) => useCases.filter((u) => u.pattern === 
 export const fill = (text: string, u: Pick<UseCase, 'trigger' | 'system' | 'knowledge'>) =>
   text.replace(/\{trigger\}/g, u.trigger).replace(/\{system\}/g, u.system).replace(/\{knowledge\}/g, u.knowledge);
 
-// Steps shown in the run trace: lower-cased slot values read naturally mid-sentence.
-export function stepsFor(u: UseCase, p: Pattern): Step[] {
-  const lower = { trigger: lc(u.trigger), system: keepCase(u.system), knowledge: lc(u.knowledge) };
-  return p.steps.map((s) => ({ ...s, does: fill(s.does, lower) }));
+// Plain-language steps for a solution. Kept general on purpose: the exact
+// systems and data are agreed with each customer during scoping.
+export function howFor(u: UseCase): string[] {
+  return plain[u.pattern].how.map((step) => fill(step, { trigger: u.trigger, system: 'your system', knowledge: 'your data' }));
 }
-const lc = (s: string) => (/^[A-Z]{2,}/.test(s) ? s : s[0].toLowerCase() + s.slice(1));
-const keepCase = (s: string) => (/^[A-Z]{2,}/.test(s) ? `the ${s}` : `the ${s[0].toLowerCase()}${s.slice(1)}`);
 
 export const counts = {
   useCases: useCases.length,

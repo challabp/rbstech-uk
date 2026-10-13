@@ -1,86 +1,76 @@
 ---
 import Base from '../layouts/Base.astro';
-import Trace from '../components/Trace.astro';
+import UseCaseRow from '../components/UseCaseRow.astro';
 import Cta from '../components/Cta.astro';
 import { industries } from '../data/industries';
 import { patterns } from '../data/patterns';
-import { byIndustry, byPattern, counts } from '../data/usecases';
-import { stages } from '../data/accounting';
-import { stack, controls, phases } from '../data/stack';
-import { renderDiagram } from '../lib/diagram';
+import { plain } from '../data/plain';
+import { byIndustry, byPattern, counts, useCaseBySlug } from '../data/usecases';
+import { headline, controls, phases } from '../data/stack';
 
-const runs = [
-  {
-    label: 'Audit fieldwork',
-    steps: [
-      { kind: 'trigger', who: 'Intake', does: 'Client uploads 14 files against the year-end request list.' },
-      { kind: 'agent', who: 'Agent', does: 'Checks each file: right entity, right period, every page present.', note: '12 accepted. 2 returned: the bank statement stops at November and the lease schedule is last year’s.' },
-      { kind: 'tool', who: 'Tool call', does: 'Asks the client to resend both through the request portal.' },
-      { kind: 'data', who: 'Retrieval', does: 'Agrees the fixed-asset register to the trial balance.', note: 'Difference of £4,210 traced to a disposal posted after year end.' },
-      { kind: 'agent', who: 'Agent', does: 'Links accepted evidence to its workpapers and marks three sections ready to start.' },
-      { kind: 'human', who: 'In-charge', does: 'Reviews the two exceptions and the disposal, then releases the sections to the team.' },
-    ],
-  },
-  {
-    label: 'Fraud investigation',
-    steps: [
-      { kind: 'trigger', who: 'Intake', does: 'Card payment of €842 flagged by the rules engine.' },
-      { kind: 'agent', who: 'Orchestrator', does: 'Plans the investigation and assigns three specialist agents.' },
-      { kind: 'data', who: 'Retrieval', does: 'Pulls 30 days of transactions, device history and location.', note: 'New device. First payment in this country. Two declined attempts an hour earlier.' },
-      { kind: 'agent', who: 'Agent', does: 'Scores the case against known fraud patterns and writes the rationale.', note: 'Recommendation: hold the payment and contact the customer.' },
-      { kind: 'human', who: 'Analyst', does: 'Reads the case file, agrees, and confirms the hold.' },
-      { kind: 'tool', who: 'Tool call', does: 'Places the hold in core banking and messages the customer.' },
-    ],
-  },
-  {
-    label: 'Prior authorisation',
-    steps: [
-      { kind: 'trigger', who: 'Intake', does: 'A clinician orders an MRI that needs payer approval.' },
-      { kind: 'data', who: 'Retrieval', does: 'Retrieves the payer’s criteria and the relevant notes from the record.' },
-      { kind: 'agent', who: 'Agent', does: 'Drafts the request and attaches the supporting evidence.', note: 'One criterion unmet: no record of six weeks of conservative treatment.' },
-      { kind: 'human', who: 'Clinician', does: 'Confirms physiotherapy was completed elsewhere and adds the note.' },
-      { kind: 'tool', who: 'Tool call', does: 'Submits through the payer portal and sets a follow-up for 48 hours.' },
-      { kind: 'out', who: 'Result', does: 'Approval received. An appointment is offered to the patient.' },
-    ],
-  },
-  {
-    label: 'Shipment exception',
-    steps: [
-      { kind: 'data', who: 'Signal', does: 'The carrier feed shows a container missed its transshipment.' },
-      { kind: 'agent', who: 'Watcher', does: 'Estimates a six-day delay and finds three customer orders affected.' },
-      { kind: 'agent', who: 'Agent', does: 'Compares waiting, air-freighting part of the load, and supplying from another warehouse.', note: 'Cheapest option that protects all three delivery dates: split from the Midlands warehouse.' },
-      { kind: 'human', who: 'Planner', does: 'Approves the split shipment.' },
-      { kind: 'tool', who: 'Tool call', does: 'Raises the transfer order and rebooks the carrier.' },
-      { kind: 'out', who: 'Result', does: 'Customers are told their new delivery dates.' },
-    ],
-  },
+// Everyday examples for the top of the page, each linking to a solution.
+const examples = [
+  { text: 'Answer customer calls and messages at any hour', slug: 'phone-answering-agent' },
+  { text: 'Read invoices and enter them into your finance system', slug: 'vendor-invoice-processing-agent' },
+  { text: 'Chase clients for missing documents', slug: 'pbc-request-and-evidence-agent' },
+  { text: 'Review contracts against your standard terms', slug: 'contract-redline-agent' },
+  { text: 'Investigate suspicious payments', slug: 'fraud-investigation-agent' },
+  { text: 'Warn you about late shipments and suggest a fix', slug: 'shipment-exception-agent' },
 ];
 
-const accountingCases = byIndustry('accounting-audit');
+// A spread across industries, in no order of priority.
+const featured = [
+  'clinical-intake-and-triage-agent',
+  'new-claim-intake-agent',
+  'new-customer-identity-check-agent',
+  'predictive-maintenance-agent',
+  'tax-return-preparation-agent',
+  'employee-hr-helpdesk-agent',
+  'returns-and-exchange-agent',
+  'travel-disruption-recovery-agent',
+];
+
+const find = (slug: string) => {
+  const u = useCaseBySlug[slug];
+  if (!u) throw new Error(`Home page links to a solution that does not exist: ${slug}`);
+  return u;
+};
 ---
 
 <Base title="Home">
   <section class="band hero">
     <div class="wrap hero-grid">
       <div>
-        <h1>We build AI agents that finish the job and know when to ask.</h1>
+        <h1>AI that takes routine work off your team.</h1>
         <p class="lede">
-          RBS Technologies designs, builds and runs agentic AI for regulated and operational work. {counts.useCases} solution designs across {counts.industries} industries, each on the models and cloud that suit the job.
+          We build AI agents: software that reads documents, answers questions and completes everyday tasks in the systems you already use. Your people stay in charge of the important decisions.
         </p>
         <div class="btn-row">
           <a class="btn btn-primary" href="/solutions/">Browse the solutions</a>
           <a class="btn btn-ghost" href="/contact/">Start a conversation</a>
         </div>
       </div>
-      <Trace title="One run, start to finish" runs={runs} autoplay />
+      <div class="examples">
+        <h2>Work an AI agent can take on</h2>
+        <ul>
+          {
+            examples.map((e) => (
+              <li>
+                <a href={`/solutions/${find(e.slug).slug}/`}>{e.text}</a>
+              </li>
+            ))
+          }
+        </ul>
+        <p><a href="/solutions/">See all {counts.useCases} solutions</a></p>
+      </div>
     </div>
   </section>
 
   <section class="section">
     <div class="wrap">
       <div class="head">
-        <h2>Sixteen industries, one way of building.</h2>
-        <p class="lede">The domain changes. The engineering does not: a tested pattern, your systems, your rules, and a person on every decision that matters.</p>
+        <h2>Solutions for {counts.industries} industries.</h2>
+        <p class="lede">Choose your industry to see the problems we solve, the benefits, and how your people stay in control.</p>
       </div>
       <ul class="ind-list">
         {
@@ -98,78 +88,35 @@ const accountingCases = byIndustry('accounting-audit');
     </div>
   </section>
 
-  <section class="section acct">
+  <section class="section white">
     <div class="wrap">
       <div class="head">
-        <h2>For accounting firms, from fieldwork to review.</h2>
-        <div class="stack">
-          <p class="lede">Firms sell judgement and spend their hours on assembly. We build the agents that clean client data, chase evidence, prepare workpapers and review them to your standards.</p>
-          <p><a class="btn btn-solid" href="/industries/accounting-audit/">See all {accountingCases.length} accounting solutions</a></p>
-        </div>
+        <h2>A few examples.</h2>
+        <p class="lede">Each solution explains the problem, what the agent does and what you gain. Open any one to read more.</p>
       </div>
-      <div class="acct-grid">
-        {
-          stages.map((s) => (
-            <div>
-              <h3>{s.name}</h3>
-              <p class="muted">{s.blurb}</p>
-              <ul>
-                {accountingCases
-                  .filter((u) => u.stage === s.slug)
-                  .map((u) => (
-                    <li>
-                      <a href={`/solutions/${u.slug}/`}>{u.name.replace(/ Agent$/, '')}</a>
-                    </li>
-                  ))}
-              </ul>
-            </div>
-          ))
-        }
+      <div class="uc-list">
+        {featured.map((slug) => <UseCaseRow u={find(slug)} showIndustry />)}
       </div>
+      <p style="margin-top:2rem"><a class="btn btn-solid" href="/solutions/">See all {counts.useCases} solutions</a></p>
     </div>
   </section>
 
   <section class="section">
     <div class="wrap">
       <div class="head">
-        <h2>Every solution is one of nine patterns.</h2>
-        <p class="lede">We do not start from a blank page. Each pattern has a known shape, known failure modes and a known place for human control. Choose one to see it.</p>
+        <h2>Nine kinds of work AI agents do well.</h2>
+        <p class="lede">Most routine work falls into one of these. If you recognise yours, an agent can probably help.</p>
       </div>
-      <div class="pat" data-patterns>
-        <div class="pat-tabs" role="tablist" aria-label="Architecture patterns">
-          {
-            patterns.map((p, i) => (
-              <button type="button" role="tab" aria-selected={i === 4 ? 'true' : 'false'} aria-controls={`pat-${p.slug}`}>
-                <span>{p.name}</span>
-                <span class="narrow">{byPattern(p.slug).length}</span>
-              </button>
-            ))
-          }
-        </div>
+      <div class="kinds">
         {
-          patterns.map((p, i) => (
-            <div class="pat-panel" id={`pat-${p.slug}`} role="tabpanel" hidden={i !== 4}>
-              <div class="dg-frame" set:html={renderDiagram(p, (s) => s.replace('{trigger}', 'Trigger').replace('{system}', 'System of record').replace('{knowledge}', 'Knowledge sources'))} />
-              <div class="pat-text">
-                <p>
-                  <strong>Use it when:</strong> {p.when}
-                </p>
-                <p>
-                  <strong>Human control:</strong> {p.control}
-                </p>
-                <p>
-                  <a href={`/solutions/?pattern=${p.slug}`}>See the {byPattern(p.slug).length} solutions built this way</a>
-                </p>
-              </div>
-            </div>
+          patterns.map((p) => (
+            <a href={`/solutions/?pattern=${p.slug}`}>
+              <h3>{plain[p.slug].label}</h3>
+              <p class="muted">{plain[p.slug].summary}</p>
+              <span class="narrow">{byPattern(p.slug).length} solutions</span>
+            </a>
           ))
         }
-        <div class="legend">
-          <span><i class="k-agent"></i>Agent reasoning</span>
-          <span><i class="k-tool"></i>System or tool</span>
-          <span><i class="k-data"></i>Data and knowledge</span>
-          <span><i class="k-human"></i>Person decides</span>
-        </div>
       </div>
     </div>
   </section>
@@ -177,28 +124,8 @@ const accountingCases = byIndustry('accounting-audit');
   <section class="band section">
     <div class="wrap">
       <div class="head">
-        <h2>No house vendor.</h2>
-        <p class="lede">The right stack depends on your data, your cloud and the task. We choose per workload and keep the choice reversible.</p>
-      </div>
-      <dl class="facts">
-        {
-          stack.map((l) => (
-            <div>
-              <dt>{l.name}</dt>
-              <dd>{l.options.join(', ')}.</dd>
-            </div>
-          ))
-        }
-      </dl>
-      <p style="margin-top:2rem"><a class="btn btn-ghost" href="/engineering/">How we choose and build</a></p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <div class="head">
-        <h2>What it takes to trust an agent in production.</h2>
-        <p class="lede">A demo proves a model can do the task once. Production means proving it does the task every time, and knowing what happens when it does not.</p>
+        <h2>Safe to rely on.</h2>
+        <p class="lede">An AI agent is only useful if you can trust it with real work. These safeguards are part of everything we build.</p>
       </div>
       <div class="three">
         {
@@ -213,11 +140,11 @@ const accountingCases = byIndustry('accounting-audit');
     </div>
   </section>
 
-  <section class="section deliver">
+  <section class="section white">
     <div class="wrap">
       <div class="head">
-        <h2>A working demo by week three. Production by week ten.</h2>
-        <p class="lede">Fixed price, fixed outcome. You see it working on your own data before you commit to the build.</p>
+        <h2>How we work with you.</h2>
+        <p class="lede">You see the agent working on your own data before you commit to the full build. Timelines depend on the work and are agreed with you after scoping.</p>
       </div>
       <ol class="phases">
         {
@@ -225,31 +152,32 @@ const accountingCases = byIndustry('accounting-audit');
             <li>
               <span class="phase-n">{i + 1}</span>
               <h3>{p.name}</h3>
-              <p class="phase-when narrow">{p.when}</p>
               <p class="muted">{p.text}</p>
             </li>
           ))
         }
       </ol>
-      <p style="margin-top:2.5rem"><a href="/approach/">Read how an engagement runs</a></p>
+      <p style="margin-top:2.5rem"><a href="/approach/">More about how we work</a></p>
+    </div>
+  </section>
+
+  <section class="section-tight">
+    <div class="wrap tech">
+      <div>
+        <h2>The best technology for each job.</h2>
+        <p class="lede" style="margin-top:1rem">We are not tied to any one supplier. We choose the AI and the cloud that fit your work and your existing systems.</p>
+      </div>
+      <div>
+        <ul class="tags big-tags">
+          {headline.map((h) => <li class="tag">{h}</li>)}
+        </ul>
+        <p style="margin-top:1.25rem"><a href="/technology/">Technology, for technical readers</a></p>
+      </div>
     </div>
   </section>
 
   <Cta />
 </Base>
-
-<script>
-  document.querySelectorAll('[data-patterns]').forEach((root) => {
-    const tabs = [...root.querySelectorAll<HTMLButtonElement>('.pat-tabs button')];
-    const panels = [...root.querySelectorAll<HTMLElement>('.pat-panel')];
-    tabs.forEach((tab, i) =>
-      tab.addEventListener('click', () => {
-        tabs.forEach((t, j) => t.setAttribute('aria-selected', String(i === j)));
-        panels.forEach((p, j) => (p.hidden = i !== j));
-      }),
-    );
-  });
-</script>
 
 <style>
   .hero {
@@ -258,16 +186,16 @@ const accountingCases = byIndustry('accounting-audit');
   .hero-grid {
     display: grid;
     gap: 3rem;
-    align-items: start;
+    align-items: center;
   }
   @media (min-width: 64rem) {
     .hero-grid {
       grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
-      gap: 4rem;
+      gap: 4.5rem;
     }
   }
   .hero h1 {
-    max-width: 13ch;
+    max-width: 12ch;
   }
   .hero .lede {
     margin-top: 1.75rem;
@@ -275,8 +203,40 @@ const accountingCases = byIndustry('accounting-audit');
   .hero .btn-row {
     margin-top: 2.25rem;
   }
-  .hero :global(.trace-steps) {
-    --trace-min: 27rem;
+  .examples h2 {
+    font-size: var(--step-1);
+    letter-spacing: 0;
+    line-height: 1.3;
+    color: #a9c0b3;
+    font-weight: 500;
+    font-stretch: 100%;
+    margin-bottom: 0.75rem;
+  }
+  .examples ul {
+    border-top: 1px solid rgba(255, 255, 255, 0.35);
+  }
+  .examples li a {
+    display: block;
+    padding: 0.95rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    text-decoration: none;
+    font-size: var(--step-2);
+    font-weight: 600;
+    font-stretch: 106%;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: #fff;
+  }
+  .examples li a:hover {
+    color: var(--marigold);
+  }
+  .examples p {
+    margin-top: 1.25rem;
+  }
+
+  .white {
+    background: var(--white);
+    border-block: 1px solid var(--line);
   }
 
   .ind-list {
@@ -292,7 +252,10 @@ const accountingCases = byIndustry('accounting-audit');
   }
   @media (min-width: 52rem) {
     .ind-list a {
-      grid-template-columns: minmax(0, 4fr) minmax(0, 7fr) auto;
+      grid-template-columns: minmax(0, 4fr) minmax(0, 7fr) 7rem;
+    }
+    .ind-n {
+      text-align: right;
     }
   }
   .ind-name {
@@ -317,86 +280,33 @@ const accountingCases = byIndustry('accounting-audit');
     color: var(--green-700);
   }
 
-  .acct {
-    background: var(--white);
-    border-block: 1px solid var(--line);
-  }
-  .acct-grid {
+  .kinds {
     display: grid;
-    gap: 2.5rem 2rem;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+    gap: 0 2.5rem;
   }
-  .acct-grid h3 {
-    padding-top: 1rem;
-    border-top: 4px solid var(--green-700);
-  }
-  .acct-grid p {
-    margin-top: 0.5rem;
-    min-height: 3.2em;
-  }
-  .acct-grid ul {
-    margin-top: 1rem;
-  }
-  .acct-grid li {
-    border-top: 1px solid var(--line);
-  }
-  .acct-grid li a {
-    display: block;
-    padding: 0.6rem 0;
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .acct-grid li a:hover {
-    text-decoration: underline;
-    color: var(--green-700);
-  }
-
-  .pat {
-    display: grid;
-    gap: 1.5rem 3rem;
-  }
-  @media (min-width: 62rem) {
-    .pat {
-      grid-template-columns: 19rem minmax(0, 1fr);
-    }
-    .pat .legend {
-      grid-column: 2;
-    }
-  }
-  .pat-tabs {
+  .kinds a {
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.25rem 0 1.75rem;
     border-top: 1.5px solid var(--ink);
-    align-self: start;
+    text-decoration: none;
   }
-  .pat-tabs button {
-    display: flex;
-    justify-content: space-between;
-    gap: 1rem;
-    text-align: left;
-    background: none;
-    border: 0;
-    border-bottom: 1px solid var(--line);
-    padding: 0.8rem 0.75rem 0.8rem 0;
-    font: inherit;
-    font-weight: 500;
+  .kinds h3 {
+    font-size: var(--step-2);
+  }
+  .kinds a:hover h3 {
+    color: var(--green-700);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.15em;
+  }
+  .kinds span {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    font-size: var(--step--1);
     color: var(--muted);
-    cursor: pointer;
-  }
-  .pat-tabs button:hover {
-    color: var(--ink);
-  }
-  .pat-tabs button[aria-selected='true'] {
-    color: var(--ink);
-    font-weight: 650;
-    box-shadow: inset 4px 0 0 var(--marigold);
-    padding-left: 0.9rem;
-    background: var(--white);
-  }
-  .pat-text {
-    margin-top: 1.5rem;
-    display: grid;
-    gap: 0.75rem;
   }
 
   .three {
@@ -409,19 +319,17 @@ const accountingCases = byIndustry('accounting-audit');
     margin-bottom: 0.6rem;
   }
 
-  .deliver {
-    background: var(--white);
-    border-top: 1px solid var(--line);
-  }
   .phases {
     display: grid;
     gap: 2.5rem 2rem;
     grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-    counter-reset: phase;
   }
   .phases li {
     border-top: 1.5px solid var(--ink);
     padding-top: 1rem;
+  }
+  .phases h3 {
+    margin-bottom: 0.6rem;
   }
   .phase-n {
     display: block;
@@ -432,8 +340,22 @@ const accountingCases = byIndustry('accounting-audit');
     line-height: 1;
     margin-bottom: 0.75rem;
   }
-  .phase-when {
-    font-weight: 600;
-    margin-block: 0.35rem 0.6rem;
+
+  .tech {
+    display: grid;
+    gap: 2rem 4rem;
+    align-items: center;
+  }
+  @media (min-width: 60rem) {
+    .tech {
+      grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
+    }
+  }
+  .tech h2 {
+    font-size: var(--step-3);
+  }
+  .big-tags .tag {
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
   }
 </style>

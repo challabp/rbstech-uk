@@ -15,6 +15,7 @@ export interface Addition {
   gate?: string;
   integrates?: string[];
   measures?: string[];
+  benefits?: string[];
 }
 
 const P = {
@@ -59,7 +60,7 @@ const rows: Row[] = [
   ['legal', 'Court Bundle and Chronology Agent', 'Builds paginated bundles and a cited chronology from the case documents.', ['Litigation', 'Bundles', 'Chronology'], P.draft],
 
   // Retail & E-commerce
-  ['retail-ecommerce', 'Product Feed Agent for AI Shopping', 'Keeps product data complete and structured so AI shopping assistants and agentic checkout can find, compare and buy from you.', ['Agentic commerce', 'Product data', 'Feeds'], P.watch],
+  ['retail-ecommerce', 'Product Feed Agent for AI Shopping', 'Keeps product data complete and structured so AI shopping assistants can find, compare and buy from you.', ['Agentic commerce', 'Product data', 'Feeds'], P.watch],
   ['retail-ecommerce', 'Retail Media Campaign Agent', 'Plans, launches and tunes sponsored listings across marketplaces and retail media networks within budget rules.', ['Retail media', 'Optimisation'], P.data],
   ['retail-ecommerce', 'Marketplace Seller Onboarding Agent', 'Checks new sellers and listings against identity, safety and policy requirements before they go live.', ['Marketplace', 'Compliance', 'Trust'], P.decide],
   ['retail-ecommerce', 'Supplier Compliance Document Agent', 'Collects and checks supplier certificates, test reports and product-safety documents, and chases what has expired.', ['Suppliers', 'Product safety', 'Document AI'], P.txn],

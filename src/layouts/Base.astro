@@ -61,7 +61,7 @@ const isCurrent = (href: string) => path.startsWith(href);
         <div class="footer-grid">
           <div>
             <h2>{site.name}</h2>
-            <p>AI agents designed, built and run for production, on the stack that suits the job.</p>
+            <p>We build AI agents that take routine work off your team, with your people in charge of the important decisions.</p>
             <p style="margin-top:1rem"><a href={`mailto:${site.email}`}>{site.email}</a></p>
           </div>
           <div>
@@ -102,40 +102,6 @@ const isCurrent = (href: string) => path.startsWith(href);
           t.setAttribute('aria-expanded', String(open));
         });
 
-        // Run traces: replay button, scenario tabs, one autoplay for the hero.
-        const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-        document.querySelectorAll('.trace').forEach((trace) => {
-          let timer;
-          const panels = [...trace.querySelectorAll('.trace-steps')];
-          const tabs = [...trace.querySelectorAll('.trace-tabs button')];
-          const active = () => panels.find((p) => !p.hidden);
-          const play = () => {
-            clearInterval(timer);
-            const steps = [...active().querySelectorAll('.trace-step')];
-            if (reduce) return;
-            steps.forEach((s) => s.removeAttribute('data-done'));
-            trace.setAttribute('data-playing', '');
-            let i = 0;
-            const tick = () => {
-              if (i < steps.length) steps[i++].setAttribute('data-done', '');
-              else {
-                clearInterval(timer);
-                trace.removeAttribute('data-playing');
-              }
-            };
-            tick();
-            timer = setInterval(tick, 700);
-          };
-          trace.querySelector('.trace-replay')?.addEventListener('click', play);
-          tabs.forEach((tab, i) =>
-            tab.addEventListener('click', () => {
-              tabs.forEach((b, j) => b.setAttribute('aria-selected', String(i === j)));
-              panels.forEach((p, j) => (p.hidden = i !== j));
-              play();
-            }),
-          );
-          if (trace.hasAttribute('data-autoplay')) play();
-        });
       })();
     </script>
   </body>

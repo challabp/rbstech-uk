@@ -4,14 +4,15 @@ import UseCaseRow from '../../components/UseCaseRow.astro';
 import Cta from '../../components/Cta.astro';
 import { industries } from '../../data/industries';
 import { patterns } from '../../data/patterns';
+import { plain } from '../../data/plain';
 import { useCases, counts } from '../../data/usecases';
 ---
 
-<Base title="Solutions" description={`${counts.useCases} AI agent solution designs across ${counts.industries} industries. Filter by industry or architecture pattern and open any one to see how it works.`}>
+<Base title="Solutions" description={`${counts.useCases} AI agent solutions across ${counts.industries} industries. Each explains the problem, what the agent does and what you gain.`}>
   <section class="band page-hero">
     <div class="wrap">
-      <h1>{counts.useCases} solutions you can open and inspect.</h1>
-      <p class="lede">Each one names the trigger, the systems it works in, the architecture, and where a person stays in control. Use them as a starting point for your own.</p>
+      <h1>{counts.useCases} ways an AI agent can help.</h1>
+      <p class="lede">Each one explains the problem, what the agent does, what you gain, and how your people stay in control. Search, or choose your industry.</p>
     </div>
   </section>
 
@@ -20,7 +21,7 @@ import { useCases, counts } from '../../data/usecases';
       <form class="filters" data-filters onsubmit="return false">
         <div class="field">
           <label for="q">Search</label>
-          <input id="q" name="q" type="search" placeholder="Try invoice, voice, audit or compliance" autocomplete="off" />
+          <input id="q" name="q" type="search" placeholder="Try invoice, phone calls, audit or compliance" autocomplete="off" />
         </div>
         <div class="field">
           <label for="industry">Industry</label>
@@ -30,10 +31,10 @@ import { useCases, counts } from '../../data/usecases';
           </select>
         </div>
         <div class="field">
-          <label for="pattern">Architecture pattern</label>
+          <label for="pattern">Kind of work</label>
           <select id="pattern" name="pattern">
-            <option value="">All patterns</option>
-            {patterns.map((p) => <option value={p.slug}>{p.name}</option>)}
+            <option value="">All kinds of work</option>
+            {patterns.map((p) => <option value={p.slug}>{plain[p.slug].label}</option>)}
           </select>
         </div>
       </form>
@@ -46,7 +47,7 @@ import { useCases, counts } from '../../data/usecases';
     </div>
   </section>
 
-  <Cta heading="Not on the list?" text="These are starting points. Most of what we build begins with a process nobody has written down yet." />
+  <Cta heading="Not on the list?" text="These are examples. Most of what we build starts with a problem that is particular to one organisation. Tell us yours." />
 </Base>
 
 <script>

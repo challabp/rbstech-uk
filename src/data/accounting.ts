@@ -401,19 +401,19 @@ export const accounting: Addition[] = [
     industry: 'accounting-audit',
     stage: 'firm',
     name: 'Firm Systems Hub',
-    summary: 'Connects engagement, practice, document and billing systems into one data model that people and agents can work across.',
+    summary: 'Connects engagement, practice, document and billing systems so people and agents can work across all of them.',
     tags: ['Integration', 'Data model', 'Multi-firm'],
     pattern: 'orchestrator-and-specialists',
     trigger: 'System events',
-    system: 'Unified firm data model',
+    system: 'Shared firm data',
     knowledge: 'Practice systems',
     problem:
       'A typical firm runs separate tools for engagements, time, documents, requests and staffing, none of which share an identifier for a client. Groups that bring several firms together inherit one such set per firm.',
     does: [
       'Connects to each system through its API, export or, where neither exists, supervised screen automation.',
-      'Resolves clients, engagements and staff to common identities across systems.',
-      'Maintains a governed data model with permissions that follow the firm’s ethical walls.',
-      'Exposes that model to agents and to reporting through standard tool interfaces.',
+      'Matches clients, engagements and staff across systems, so each appears once.',
+      'Keeps one shared set of data, where each person sees only what the firm’s confidentiality rules allow.',
+      'Makes that data available to agents and to reports in a standard way.',
     ],
     gate: 'Access follows each firm’s existing permissions. Data from separate firms stays logically separate unless a sharing rule is agreed.',
     integrates: ['Engagement software', 'Practice management', 'Document management', 'Staffing tools', 'Request portals', 'Ledgers'],
@@ -464,3 +464,31 @@ export const accounting: Addition[] = [
     measures: ['Opportunities raised per partner', 'Conversations held', 'Advisory fees from existing clients'],
   },
 ];
+
+// What the firm gains from each solution, in plain terms.
+const benefits: Record<string, string[]> = {
+  'Client Data Normalisation Agent': ['Fieldwork starts days earlier, on clean data', 'Associates stop reformatting spreadsheets', 'Errors in client data are caught before testing begins'],
+  'PBC Request and Evidence Agent': ['Clients send the right documents sooner', 'Staff no longer spend time on reminders', 'Teams start work when the evidence is actually in'],
+  'Workpaper Preparation Agent': ['Associates begin with a prepared file, not a blank one', 'Fewer arithmetic and referencing errors reach review', 'More of each engagement’s hours go on judgement'],
+  'Substantive Testing Agent': ['Testing that took days is done in hours', 'Every item is checked with the same care, from first to last', 'Evidence is attached to each result, ready for review'],
+  'Journal Entry Testing Agent': ['Every journal is examined, not a small sample', 'The riskiest entries are ranked and explained', 'A clear record of how the selection was made'],
+  'Confirmations Agent': ['Nobody has to track replies by hand', 'Missing replies are spotted early, while there is time to act', 'Differences are explained before the auditor looks at them'],
+  'Financial Statement Tie-out Agent': ['Final checks take hours, not days', 'Errors are found before the partner or the client sees them', 'A revised draft is re-checked in minutes'],
+  'Review Notes Agent': ['Managers spend review time on judgement, not on mechanics', 'Fewer rounds of review for each workpaper', 'The firm’s standards are applied the same way on every engagement'],
+  'Technical Accounting Research Agent': ['Answers in minutes, with the references to check them', 'The firm’s earlier work on similar questions is reused', 'Consistent positions across engagements and offices'],
+  'File Completion and Quality Agent': ['Gaps are fixed during the engagement, not at the deadline', 'Files are archived on time', 'Fewer findings at inspection'],
+  'Tax Return Preparation Agent': ['Preparers review returns in place of typing them', 'Fewer data-entry errors', 'More returns completed in the same season with the same team'],
+  'Month-End Close Agent': ['The books close sooner each month', 'Each accountant can look after more clients', 'Clients receive commentary that explains the numbers'],
+  'Bookkeeping and Coding Agent': ['Less time spent on each client every month', 'Consistent treatment of similar transactions', 'Queries to clients are clear and answered first time'],
+  'Tax Authority Correspondence Agent': ['Deadlines are never missed', 'Responses are drafted the day a notice arrives', 'Staff do not have to hunt for the history'],
+  'Engagement Scheduling Agent': ['Fewer days lost waiting for client information', 'Staff are busy with work that can actually progress', 'Engagements finish earlier'],
+  'Client Acceptance and Independence Agent': ['New clients are taken on in days, not weeks', 'Every required check is completed and recorded', 'Partners can start work sooner'],
+  'WIP and Billing Agent': ['Overruns are discussed with the client before the bill, not after', 'Invoices go out sooner', 'Fees are collected faster'],
+  'Firm Systems Hub': ['Information is entered once and available everywhere', 'Partners see the whole firm, or a group of firms, in one view', 'New agents and reports are quicker to add'],
+  'Methodology Assistant': ['Staff get the right answer at any hour', 'Senior people are interrupted less', 'New joiners become productive sooner'],
+  'Advisory Opportunity Agent': ['More advisory work from clients you already serve', 'Partners go into conversations prepared', 'What engagement teams notice reaches the people who can act on it'],
+};
+for (const a of accounting) {
+  a.benefits = benefits[a.name];
+  if (!a.benefits) throw new Error(`No benefits written for ${a.name}`);
+}

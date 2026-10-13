@@ -11,13 +11,13 @@ export interface Industry {
   focus: string[]; // where agents pay back first
 }
 
-export const industries: Industry[] = [
+const unsorted: Industry[] = [
   {
     slug: 'accounting-audit',
     name: 'Accounting & Audit',
     line: 'Fieldwork, review, tax and firm operations for accounting practices.',
     intro:
-      'Accounting firms sell judgement but spend most of their hours on mechanical work: chasing documents, cleaning client data, tying numbers out. We build agents that take that work on inside the firm’s own methodology, so partners and managers review rather than assemble.',
+      'Accounting firms are valued for their judgement, yet most of their hours go on routine work: chasing documents, cleaning up client data and checking that numbers agree. We build agents that take on that work in the firm’s own way, so partners and managers can spend their time reviewing.',
     system: 'Engagement file',
     knowledge: 'Firm methodology and prior-year files',
     systems: ['Engagement and workpaper software', 'Practice management, time and billing', 'Client request portals', 'General ledgers such as Xero, QuickBooks, Sage and NetSuite', 'Tax preparation software', 'Document management'],
@@ -129,7 +129,7 @@ export const industries: Industry[] = [
     name: 'Customer Support',
     line: 'Voice, chat, email and the back office behind them.',
     intro:
-      'Support is where agentic AI is most proven. We build agents that resolve issues end to end across voice, chat and email, take actions in back-office systems, and hand over to a person with the whole story when they should.',
+      'Customer support is where AI agents are most proven. We build agents that resolve issues end to end across voice, chat and email, take actions in back-office systems, and hand over to a person with the whole story when they should.',
     system: 'CRM and ticketing',
     knowledge: 'Knowledge base and account history',
     systems: ['Ticketing and CRM', 'Contact-centre and telephony platforms', 'Knowledge bases', 'Billing and order systems', 'Quality-assurance tools'],
@@ -213,6 +213,9 @@ export const industries: Industry[] = [
     focus: ['Disruption recovery', 'Guest concierge', 'Group and corporate travel', 'Revenue management'],
   },
 ];
+
+// Alphabetical: no industry takes priority over another.
+export const industries: Industry[] = [...unsorted].sort((a, b) => a.name.localeCompare(b.name));
 
 export const industryBySlug = Object.fromEntries(industries.map((i) => [i.slug, i]));
 // Lookup by the name used in the original catalogue.

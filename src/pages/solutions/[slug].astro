@@ -1,12 +1,10 @@
 ---
 import Base from '../../layouts/Base.astro';
-import Trace from '../../components/Trace.astro';
 import UseCaseRow from '../../components/UseCaseRow.astro';
 import Cta from '../../components/Cta.astro';
-import { useCases, byIndustry, fill, stepsFor, type UseCase } from '../../data/usecases';
+import { useCases, byIndustry, howFor, type UseCase } from '../../data/usecases';
 import { industryBySlug } from '../../data/industries';
-import { patternBySlug } from '../../data/patterns';
-import { renderDiagram } from '../../lib/diagram';
+import { plain } from '../../data/plain';
 
 export function getStaticPaths() {
   return useCases.map((u) => ({ params: { slug: u.slug }, props: { u } }));
@@ -16,13 +14,12 @@ interface Props {
 }
 const { u } = Astro.props;
 const ind = industryBySlug[u.industry];
-const pat = patternBySlug[u.pattern];
-const steps = stepsFor(u, pat);
-const diagram = renderDiagram(pat, (s) => fill(s, u), `${u.name} architecture`);
+const kind = plain[u.pattern];
 const siblings = byIndustry(u.industry).filter((x) => x.slug !== u.slug);
 const related = [...siblings.filter((x) => x.pattern === u.pattern), ...siblings.filter((x) => x.pattern !== u.pattern)].slice(0, 4);
-const integrates = u.integrates ?? ind.systems;
-const measures = u.measures ?? pat.measures;
+const benefits = u.benefits ?? kind.benefits;
+const measures = u.measures ?? kind.measures;
+const worksWith = u.integrates ?? ind.systems;
 ---
 
 <Base title={u.name} description={u.summary}>
@@ -34,70 +31,51 @@ const measures = u.measures ?? pat.measures;
       </nav>
       <h1>{u.name}</h1>
       <p class="lede">{u.summary}</p>
-      <div class="tags" style="margin-top:1.5rem">
-        {u.tags.map((t) => <span class="tag">{t}</span>)}
-      </div>
     </div>
   </section>
 
   <section class="section-tight">
     <div class="wrap split">
-      <div class="stack" style="--gap:2.75rem">
+      <div class="sections">
+        <div class="stack">
+          <h2 class="h">The challenge</h2>
+          <p class="big">{u.problem ?? kind.challenge}</p>
+        </div>
         {
-          u.problem && (
-            <div class="stack">
-              <h2 class="h">The problem</h2>
-              <p class="big">{u.problem}</p>
-            </div>
-          )
-        }
-        {
-          u.does && (
+          u.does ? (
             <div class="stack">
               <h2 class="h">What the agent does</h2>
               <ul class="ticks">
-                {u.does.map((d) => <li>{d}</li>)}
+                {u.does.map((d) => (
+                  <li>{d}</li>
+                ))}
               </ul>
+            </div>
+          ) : (
+            <div class="stack">
+              <h2 class="h">How it works</h2>
+              <ol class="steps">
+                {howFor(u).map((s, i) => (
+                  <li>
+                    <span>{i + 1}</span>
+                    {s}
+                  </li>
+                ))}
+              </ol>
             </div>
           )
         }
         <div class="stack">
-          <h2 class="h">Architecture: {pat.name.toLowerCase()}</h2>
-          <p>{pat.why}</p>
-          <div class="dg-frame" set:html={diagram} />
-          <div class="legend">
-            <span><i class="k-agent"></i>Agent reasoning</span>
-            <span><i class="k-tool"></i>System or tool</span>
-            <span><i class="k-data"></i>Data and knowledge</span>
-            <span><i class="k-human"></i>Person decides</span>
-          </div>
-        </div>
-        <div class="stack">
-          <h2 class="h">Where a person stays in control</h2>
-          <p class="big">{u.gate ?? pat.control}</p>
+          <h2 class="h">Your people stay in control</h2>
+          <p class="big">{u.gate ?? kind.control}</p>
         </div>
       </div>
 
-      <aside class="stack" style="--gap:2rem">
-        <Trace title="How a run goes" runs={[{ label: u.name, steps }]} note="The sequence this pattern follows. Details are set with you in discovery." />
-        <dl class="facts">
-          <div>
-            <dt>Starts from</dt>
-            <dd>{u.trigger}</dd>
-          </div>
-          <div>
-            <dt>Works in</dt>
-            <dd>{u.system}</dd>
-          </div>
-          <div>
-            <dt>Draws on</dt>
-            <dd>{u.knowledge}</dd>
-          </div>
-          <div>
-            <dt>Outcome</dt>
-            <dd>{pat.outcome}</dd>
-          </div>
-        </dl>
+      <aside class="benefits">
+        <h2 class="h">What you gain</h2>
+        <ul>
+          {benefits.map((b) => <li>{b}</li>)}
+        </ul>
       </aside>
     </div>
   </section>
@@ -105,29 +83,21 @@ const measures = u.measures ?? pat.measures;
   <section class="section-tight detail">
     <div class="wrap cols">
       <div>
-        <h2 class="h">Connects to</h2>
+        <h2 class="h">{u.integrates ? 'Works with' : `Systems we work with in ${ind.name}`}</h2>
         <ul class="ticks">
-          {integrates.map((s) => <li>{s}</li>)}
+          {worksWith.map((s) => <li>{s}</li>)}
         </ul>
       </div>
       <div>
-        <h2 class="h">What we measure</h2>
+        <h2 class="h">How we measure success</h2>
         <ul class="ticks">
           {measures.map((s) => <li>{s}</li>)}
         </ul>
       </div>
       <div>
-        <h2 class="h">Built with</h2>
-        <ul class="ticks">
-          {pat.stack.map((s) => <li>{s}</li>)}
-        </ul>
-        <p class="small" style="margin-top:1rem"><a href="/engineering/">How we choose the stack</a></p>
-      </div>
-      <div>
-        <h2 class="h">Rules that shape the design</h2>
-        <ul class="ticks">
-          {ind.rules.map((s) => <li>{s}</li>)}
-        </ul>
+        <h2 class="h">Kind of work</h2>
+        <p class="muted">{kind.label}. {kind.summary}</p>
+        <p class="small" style="margin-top:1rem"><a href={`/technology/#${u.pattern}`}>Technical design, for technical readers</a></p>
       </div>
     </div>
   </section>
@@ -154,7 +124,7 @@ const measures = u.measures ?? pat.measures;
     )
   }
 
-  <Cta heading={`Want this running in your ${ind.slug === 'accounting-audit' ? 'firm' : 'organisation'}?`} text="We will build a working version on a sample of your own cases, scored against your experts’ answers, before you commit to production." />
+  <Cta heading={`Want this working in your ${ind.slug === 'accounting-audit' ? 'firm' : 'organisation'}?`} text="We can show it working on real examples from your business before you commit to a full build." />
 </Base>
 
 <style>
@@ -166,9 +136,55 @@ const measures = u.measures ?? pat.measures;
     letter-spacing: -0.015em;
     line-height: 1.15;
   }
+  .sections > * + * {
+    margin-top: 2.75rem;
+  }
   .big {
     font-size: var(--step-1);
     line-height: 1.5;
+  }
+  .steps li {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: 0.75rem;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .steps li:first-child {
+    border-top: 1.5px solid var(--ink);
+  }
+  .steps span {
+    font-weight: 700;
+    font-stretch: 120%;
+    color: var(--green-500);
+  }
+  .benefits {
+    background: var(--green-900);
+    color: #e9f0ea;
+    border-radius: 8px;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+  }
+  .benefits .h {
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+  .benefits li {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    font-size: var(--step-1);
+    line-height: 1.35;
+    font-weight: 500;
+  }
+  .benefits li:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+  @media (min-width: 62rem) {
+    .benefits {
+      position: sticky;
+      top: 5.5rem;
+    }
   }
   .detail {
     background: var(--white);
@@ -187,11 +203,5 @@ const measures = u.measures ?? pat.measures;
   }
   .cols li {
     color: var(--muted);
-  }
-  @media (min-width: 62rem) {
-    aside {
-      position: sticky;
-      top: 5.5rem;
-    }
   }
 </style>
